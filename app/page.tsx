@@ -1,10 +1,45 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Users, Code, Heart, Calendar, MapPin, Mail } from "lucide-react"
+import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
+import { workshopService } from "@/services/workshopService"
+import { Workshop } from "@/types/api"
+
 export default function Home() {
+  const [nextWorkshop, setNextWorkshop] = useState<Workshop | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchNextWorkshop = async () => {
+      try {
+        const workshops = await workshopService.getUpcomingWorkshops()
+        // Get the next upcoming workshop (first one in the list)
+        if (workshops.length > 0) {
+          setNextWorkshop(workshops[0])
+        }
+      } catch (error) {
+        console.error('Error fetching workshops:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchNextWorkshop()
+  }, [])
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    })
+  }
   return (
     <div className="min-h-screen bg-background">
     
@@ -109,48 +144,88 @@ export default function Home() {
             </p>
           </div>
 
-          <Card className="border-border bg-background">
-            <CardHeader>
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                <div>
-                  <CardTitle className="font-serif font-bold text-xl">Next Workshop: Dar es Salaam</CardTitle>
-                  <CardDescription className="flex items-center gap-2 mt-2">
-                    <Calendar className="h-4 w-4" />
-                    March 15-16, 2025
-                  </CardDescription>
-                  <CardDescription className="flex items-center gap-2 mt-1">
-                    <MapPin className="h-4 w-4" />
-                    University of Dar es Salaam, CoICT
-                  </CardDescription>
+          {loading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+              <p className="mt-2 text-muted-foreground">Loading workshop information...</p>
+            </div>
+          ) : nextWorkshop ? (
+            <Card className="border-border bg-background">
+              <CardHeader>
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div>
+                    <CardTitle className="font-serif font-bold text-xl">
+                      Next Workshop: {nextWorkshop.workshop_name}
+                    </CardTitle>
+                    <CardDescription className="flex items-center gap-2 mt-2">
+                      <Calendar className="h-4 w-4" />
+                      {formatDate(nextWorkshop.workshop_date)}
+                    </CardDescription>
+                    <CardDescription className="flex items-center gap-2 mt-1">
+                      <MapPin className="h-4 w-4" />
+                      {nextWorkshop.workshop_location}
+                    </CardDescription>
+                    {nextWorkshop.venue && (
+                      <CardDescription className="flex items-center gap-2 mt-1">
+                        <Users className="h-4 w-4" />
+                        {nextWorkshop.venue}
+                      </CardDescription>
+                    )}
+                  </div>
+                  <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
+                    <Link href="/workshops">
+                      Register Now
+                    </Link>
+                  </Button>
                 </div>
-                <Button size="lg" className="bg-primary hover:bg-primary/90">
-                  Register Now
+              </CardHeader>
+              <CardContent>
+                {nextWorkshop.workshop_description && (
+                  <div className="mb-6">
+                    <p className="text-muted-foreground">{nextWorkshop.workshop_description}</p>
+                  </div>
+                )}
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <h4 className="font-semibold mb-3">What you'll learn:</h4>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li>• Python programming basics</li>
+                      <li>• Django web framework</li>
+                      <li>• HTML, CSS, and web design</li>
+                      <li>• Deploying your first web app</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold mb-3">What's included:</h4>
+                    <ul className="space-y-2 text-muted-foreground">
+                      <li>• Free laptop for the workshop</li>
+                      <li>• Meals and refreshments</li>
+                      <li>• Take-home tutorial materials</li>
+                      <li>• Ongoing mentorship support</li>
+                    </ul>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center gap-2 text-sm text-muted-foreground">
+                  <Users className="h-4 w-4" />
+                  {parseInt(nextWorkshop.registrations_count) || 0} people registered
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <Card className="border-border bg-background">
+              <CardContent className="text-center py-12">
+                <h3 className="font-semibold text-xl mb-4">No Upcoming Workshops</h3>
+                <p className="text-muted-foreground mb-6">
+                  We're currently planning our next workshop. Check back soon or join our community to be notified!
+                </p>
+                <Button asChild>
+                  <Link href="/workshops">
+                    View Past Workshops
+                  </Link>
                 </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-semibold mb-3">What you'll learn:</h4>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>• Python programming basics</li>
-                    <li>• Django web framework</li>
-                    <li>• HTML, CSS, and web design</li>
-                    <li>• Deploying your first web app</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="font-semibold mb-3">What's included:</h4>
-                  <ul className="space-y-2 text-muted-foreground">
-                    <li>• Free laptop for the workshop</li>
-                    <li>• Meals and refreshments</li>
-                    <li>• Take-home tutorial materials</li>
-                    <li>• Ongoing mentorship support</li>
-                  </ul>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          )}
         </div>
       </section>
 

@@ -19,9 +19,8 @@ const openSans = Open_Sans({
 })
 
 export const metadata: Metadata = {
-  title: "Django Girls Tanzania",
-  description: "Empowering women to learn programming through Django workshops in Tanzania",
-  generator: "v0.app",
+  title: "DjangoCampus Global",
+  description: "Unleashing the next generation of developers through immersive Django workshops | Code. Create. Conquer.",
 }
 
 export default function RootLayout({

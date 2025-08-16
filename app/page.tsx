@@ -2,35 +2,15 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Users, Code, Heart, Calendar, MapPin, Mail } from "lucide-react"
-
+import Header from "@/components/layouts/Header"
+import Footer from "@/components/layouts/Footer"
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-            <img src="/Campus_crop.png" alt="DjangoCampus Logo" className="h-10 w-20" />
-            <div>
-              <h1 className="font-serif font-black text-xl text-foreground">DjangoCampus</h1>
-              <p className="text-sm text-muted-foreground">Powered by Django</p>
-            </div>
-            </div>
-          <nav className="hidden md:flex items-center gap-6">
-            <a href="#about" className="text-foreground hover:text-primary transition-colors">
-              About
-            </a>
-            <a href="#workshops" className="text-foreground hover:text-primary transition-colors">
-              Workshops
-            </a>
-            <a href="#community" className="text-foreground hover:text-primary transition-colors">
-              Community
-            </a>
-            <Button>Join Us</Button>
-          </nav>
-        </div>
-      </header>
+    
+      <Header />
 
+      {/* Main Content */}
       {/* Hero Section */}
       <section className="py-20 px-4 bg-gradient-to-br from-card to-background">
         <div className="container mx-auto text-center max-w-4xl">
@@ -47,13 +27,17 @@ export default function Home() {
             backgrounds to learn web development in a supportive, inclusive environment.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90">
-              <Calendar className="mr-2 h-5 w-5" />
-              Join Next Workshop
+            <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
+              <a href="/workshops">
+                <Calendar className="mr-2 h-5 w-5" />
+                Join Next Workshop
+              </a>
             </Button>
-            <Button variant="outline" size="lg">
-              <Users className="mr-2 h-5 w-5" />
-              Meet Our Community
+            <Button variant="outline" size="lg" asChild>
+              <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39">
+                <Users className="mr-2 h-5 w-5" />
+                Meet Our Community
+              </a>
             </Button>
           </div>
         </div>
@@ -93,7 +77,7 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <CardDescription className="text-center">
-                  Connect with like-minded women, find mentors, and become part of Tanzania's growing tech community.
+                  Connect with like-minded peers, find mentors, and become part of a vibrant global tech community.
                 </CardDescription>
               </CardContent>
             </Card>
@@ -176,7 +160,7 @@ export default function Home() {
           <div className="text-center mb-12">
             <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">Our Amazing Community</h2>
             <p className="text-lg text-muted-foreground">
-              Hear from women who've transformed their lives through Django Girls Tanzania
+              Hear from women who've transformed their lives through Django Girls workshops
             </p>
           </div>
 
@@ -260,77 +244,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 bg-card border-t border-border">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="md:col-span-2">
-              <div className="flex items-center gap-3 mb-4">
-                <img src="/Campus_crop.png" alt="Django Campus" className="h-10 w-20" />
-                <div>
-                  <h3 className="font-serif font-bold text-lg">Django Campus</h3>
-                  <p className="text-sm text-muted-foreground">Powered by Django</p>
-                </div>
-              </div>
-              <p className="text-muted-foreground mb-4">
-                Empowering youth to learn programming through free Django workshops across Tanzania.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Twitter
-                </a>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Facebook
-                </a>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  Instagram
-                </a>
-                <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  LinkedIn
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>
-                  <a href="#about" className="hover:text-primary transition-colors">
-                    About Us
-                  </a>
-                </li>
-                <li>
-                  <a href="#workshops" className="hover:text-primary transition-colors">
-                    Workshops
-                  </a>
-                </li>
-                <li>
-                  <a href="#community" className="hover:text-primary transition-colors">
-                    Community
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-primary transition-colors">
-                    Resources
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2 text-muted-foreground">
-                <li>juliusboakye@pythonghana.org</li>
-                <li>Accra, Ghana</li>
-                <li>+233 50 015 9892</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-            <p>&copy; 2025 Django Campus. We are building a community of vibrant Django Developers.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }

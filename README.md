@@ -1,30 +1,24 @@
-# Django landing page
+# DjangoCampus
 
-*Automatically synced with your [v0.app](https://v0.app) deployments*
+## About
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/bbjulius900gmailcoms-projects/v0-django-landing-page)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.app-black?style=for-the-badge)](https://v0.app/chat/projects/R1z7Tou67le)
+DjangoCampus is a community-driven platform dedicated to empowering developers, students, and educators with resources, workshops, and events focused on Django and modern web development. Our mission is to foster learning, collaboration, and innovation within the Django ecosystem.
 
-## Overview
+## Features
 
-This repository will stay in sync with your deployed chats on [v0.app](https://v0.app).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.app](https://v0.app).
+- Interactive workshops and tutorials
+- Community events and meetups
+- Resources for beginners and advanced users
+- Networking opportunities for Django enthusiasts
 
-## Deployment
+## Get Involved
 
-Your project is live at:
+Join our community to learn, share, and grow together. Whether you're just starting out or an experienced developer, DjangoCampus offers something for everyone.
 
-**[https://vercel.com/bbjulius900gmailcoms-projects/v0-django-landing-page](https://vercel.com/bbjulius900gmailcoms-projects/v0-django-landing-page)**
+## Contributing
 
-## Build your app
+We welcome contributions! Feel free to open issues, submit pull requests, or suggest new features to help us improve DjangoCampus.
 
-Continue building your app on:
+## License
 
-**[https://v0.app/chat/projects/R1z7Tou67le](https://v0.app/chat/projects/R1z7Tou67le)**
-
-## How It Works
-
-1. Create and modify your project using [v0.app](https://v0.app)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+This project is open source and available under the MIT License.

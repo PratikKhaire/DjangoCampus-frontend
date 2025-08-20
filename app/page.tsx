@@ -192,7 +192,7 @@ Best regards`
           <div className="text-center mb-12">
             <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">What is DjangoCampus?</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're a global non-profit organization that empowers and helps youth on campus organize free programming workshops.
+              We're a dedicated team that organizes free Django workshops on different campuses. We're open for partnerships to bring quality programming education to more students.
             </p>
           </div>
 
@@ -623,6 +623,145 @@ Best regards`
                 </Button>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Support Community Section */}
+      <section className="py-16 px-4 bg-gradient-to-br from-primary/5 to-secondary/5">
+        <div className="container mx-auto max-w-4xl text-center">
+          <div className="mb-8">
+            <Heart className="h-16 w-16 text-primary mx-auto mb-6" />
+            <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">
+              Support Our Movement
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8">
+              Help us reach more students across campuses. Your donation enables us to organize free workshops, 
+              provide learning materials, and build a stronger tech community for the next generation.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-4 gap-6 mb-8">
+            <Card className="border-primary/20 bg-background/50 backdrop-blur-sm">
+              <CardContent className="p-6 text-center">
+                <div className="text-2xl font-bold text-primary mb-2">$10</div>
+                <p className="text-sm text-muted-foreground">Sponsor learning materials for one student</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-primary/30 bg-primary/10 backdrop-blur-sm">
+              <CardContent className="p-6 text-center">
+                <div className="text-2xl font-bold text-primary mb-2">$50</div>
+                <p className="text-sm text-muted-foreground">Fund a complete workshop session</p>
+              </CardContent>
+            </Card>
+            
+            <Card className="border-primary/20 bg-background/50 backdrop-blur-sm">
+              <CardContent className="p-6 text-center">
+                <div className="text-2xl font-bold text-primary mb-2">$100</div>
+                <p className="text-sm text-muted-foreground">Support an entire campus outreach program</p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-dashed border-2 border-primary/30 bg-secondary/5 backdrop-blur-sm">
+              <CardContent className="p-6 text-center">
+                <div className="text-2xl font-bold text-secondary mb-2">Custom</div>
+                <p className="text-sm text-muted-foreground">Any amount helps build our community</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Benefits Section */}
+          <div className="mb-8 p-6 bg-background/50 rounded-lg backdrop-blur-sm">
+            <h3 className="font-semibold text-lg text-center mb-4">Why Your Donation Matters</h3>
+            <div className="grid md:grid-cols-3 gap-4 text-sm">
+              <div className="text-center">
+                <div className="mb-2">🎓</div>
+                <p className="font-medium">Direct Impact</p>
+                <p className="text-muted-foreground">100% goes to students - no overhead costs</p>
+              </div>
+              <div className="text-center">
+                <div className="mb-2">🌱</div>
+                <p className="font-medium">Long-term Growth</p>
+                <p className="text-muted-foreground">Students become mentors, creating sustainable impact</p>
+              </div>
+              <div className="text-center">
+                <div className="mb-2">📊</div>
+                <p className="font-medium">Transparent Updates</p>
+                <p className="text-muted-foreground">Regular reports on how your donation is used</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+            <Button 
+              size="lg" 
+              className="bg-primary hover:bg-primary/90"
+              onClick={() => window.open('https://paystack.com/pay/djangocampus-50', '_blank')}
+            >
+              <Heart className="mr-2 h-5 w-5" />
+              Donate $50
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => window.open('https://paystack.com/pay/djangocampus-donate', '_blank')}
+            >
+              <Heart className="mr-2 h-5 w-5" />
+              Custom Amount
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              onClick={() => {
+                const email = 'juliusboakye@pythonghana.org'
+                const subject = 'Partnership & Sponsorship Inquiry - DjangoCampus'
+                const body = `Hello Julius,
+
+I'm interested in partnering with or sponsoring DjangoCampus to support your mission of bringing Django education to more students.
+
+Please let me know more about:
+- Partnership opportunities
+- Sponsorship packages
+- How I can contribute to the movement
+
+Looking forward to hearing from you.
+
+Best regards`
+                
+                const mailtoLink = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                try {
+                  window.location.href = mailtoLink
+                } catch (error) {
+                  navigator.clipboard.writeText(email).then(() => {
+                    alert(`Please send an email to: ${email}\n\nEmail address copied to clipboard!`)
+                  }).catch(() => {
+                    alert(`Please send an email to: ${email}`)
+                  })
+                }
+              }}
+            >
+              <Users className="mr-2 h-5 w-5" />
+              Become a Partner
+            </Button>
+          </div>
+
+          {/* Additional Benefits */}
+          <div className="mb-6 text-center">
+            <p className="text-sm text-muted-foreground mb-2">
+              <span className="font-medium">🎁 Donor Benefits:</span> Recognition on our website • Quarterly impact reports • Exclusive community updates
+            </p>
+            <p className="text-xs text-muted-foreground">
+              All donations are used directly for educational programs. Tax receipts available upon request.
+            </p>
+          </div>
+
+          <div className="mt-8 p-4 bg-background/30 rounded-lg backdrop-blur-sm">
+            <p className="text-sm text-muted-foreground">
+              🌟 Every contribution, no matter the size, helps us empower more young developers across Africa and beyond.
+              <br />
+              <span className="font-medium">Together, we're building the next generation of tech leaders.</span>
+            </p>
           </div>
         </div>
       </section>

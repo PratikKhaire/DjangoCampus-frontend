@@ -21,6 +21,14 @@ const openSans = Open_Sans({
 export const metadata: Metadata = {
   title: "DjangoCampus Global",
   description: "Unleashing the next generation of developers through immersive Django workshops | Code. Create. Conquer.",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/django-campus.png', type: 'image/png' }
+    ],
+    shortcut: '/favicon.ico',
+    apple: '/django-campus.png',
+  },
 }
 
 export default function RootLayout({

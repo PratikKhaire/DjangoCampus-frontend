@@ -48,6 +48,25 @@ export interface NewsletterSubscription {
   name?: string
 }
 
+export interface TeamMember {
+  id: number
+  fullName: string
+  position: string
+  bio: string
+  image: string
+  image_url: string
+  is_active: boolean
+  join_date: string
+  socials: TeamMemberSocial[]
+}
+
+export interface TeamMemberSocial {
+  id: number
+  platform: string
+  url: string
+  is_primary: boolean
+}
+
 export interface ApiResponse<T> {
   count?: number
   next?: string

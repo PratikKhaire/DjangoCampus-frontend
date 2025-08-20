@@ -30,6 +30,9 @@ export default function Header() {
           <a href="#community" className="text-foreground hover:text-primary transition-colors">
             Community
           </a>
+          <a href="/partners" className="text-foreground hover:text-primary transition-colors">
+            Partners
+          </a>
           <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39"><Button>Join Us</Button></a>
         </nav>
 
@@ -67,6 +70,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Community
+            </a>
+            <a 
+              href="/partners" 
+              className="text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Partners
             </a>
             <div className="pt-2">
               <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>

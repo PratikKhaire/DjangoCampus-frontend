@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,92 +8,71 @@ import { Heart, Users, Building2, Star, Award, Globe, Mail, ExternalLink } from 
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
+import { getPartners, Partner } from "@/services/partnerService"
+import { getContributors, Contributor } from "@/services/contributorService"
+import { getSupporters, Supporter } from "@/services/supporterService"
 
 export default function PartnersPage() {
-  // Dummy data - replace with backend API calls later
-  const partners = [
-    {
-      id: 1,
-      name: "University of Ghana",
-      type: "Academic Partner",
-      logo: "/placeholder-logo.png",
-      description: "Hosting Django workshops at their computer science department.",
-      website: "https://ug.edu.gh",
-      partnership_date: "2024-01-15",
-      tier: "Platinum"
-    },
-    {
-      id: 2,
-      name: "Python Ghana",
-      type: "Community Partner",
-      logo: "/pycon-tanzania-logo.png",
-      description: "Supporting our mission with technical expertise and community outreach.",
-      website: "https://pythonghana.org",
-      partnership_date: "2024-02-20",
-      tier: "Gold"
-    },
-    {
-      id: 3,
-      name: "TechHub Africa",
-      type: "Technology Partner",
-      logo: "/placeholder-logo.svg",
-      description: "Providing venue space and technical infrastructure for workshops.",
-      website: "https://techhub.africa",
-      partnership_date: "2024-03-10",
-      tier: "Silver"
-    }
-  ]
+  const [partners, setPartners] = useState<Partner[]>([])
+  const [contributors, setContributors] = useState<Contributor[]>([])
+  const [supporters, setSupporters] = useState<Supporter[]>([])
+  const [partnersLoading, setPartnersLoading] = useState(true)
+  const [contributorsLoading, setContributorsLoading] = useState(true)
+  const [supportersLoading, setSupportersLoading] = useState(true)
+  const [partnersError, setPartnersError] = useState<string | null>(null)
+  const [contributorsError, setContributorsError] = useState<string | null>(null)
+  const [supportersError, setSupportersError] = useState<string | null>(null)
 
-  const contributors = [
-    {
-      id: 1,
-      name: "Sarah Mensah",
-      role: "Lead Volunteer",
-      avatar: "/african-woman-developer-smiling.png",
-      contributions: "Organized 5 workshops, mentored 100+ students"
-    },
-    {
-      id: 2,
-      name: "Kwame Asante",
-      role: "Technical Mentor",
-      avatar: "/placeholder-user.jpg",
-      contributions: "Created curriculum content, led 8 technical sessions"
-    },
-    {
-      id: 3,
-      name: "Amina Ibrahim",
-      role: "Community Manager",
-      avatar: "/african-woman-teacher-computer.png",
-      contributions: "Built partnerships across 3 universities"
+  useEffect(() => {
+    const fetchPartners = async () => {
+      try {
+        setPartnersLoading(true)
+        const response = await getPartners()
+        setPartners(response.results.filter(partner => partner.is_active))
+        setPartnersError(null)
+      } catch (err) {
+        console.error('Failed to fetch partners:', err)
+        setPartnersError('Failed to load partners')
+      } finally {
+        setPartnersLoading(false)
+      }
     }
-  ]
 
-  const donors = [
-    {
-      id: 1,
-      name: "Anonymous Donor",
-      amount: "$500",
-      message: "Keep up the amazing work empowering African developers!",
-      date: "2024-08-15"
-    },
-    {
-      id: 2,
-      name: "DevCorp Solutions",
-      amount: "$1,200",
-      message: "Proud to support tech education across Africa.",
-      date: "2024-07-22"
-    },
-    {
-      id: 3,
-      name: "The Johnson Family",
-      amount: "$250",
-      message: "Education is the foundation of progress. Go DjangoCampus!",
-      date: "2024-08-10"
+    const fetchContributors = async () => {
+      try {
+        setContributorsLoading(true)
+        const response = await getContributors()
+        setContributors(response.results.filter(contributor => contributor.is_active))
+        setContributorsError(null)
+      } catch (err) {
+        console.error('Failed to fetch contributors:', err)
+        setContributorsError('Failed to load contributors')
+      } finally {
+        setContributorsLoading(false)
+      }
     }
-  ]
 
-  const getTierColor = (tier: string) => {
-    switch (tier) {
+    const fetchSupporters = async () => {
+      try {
+        setSupportersLoading(true)
+        const response = await getSupporters()
+        setSupporters(response.results.filter(supporter => supporter.is_active))
+        setSupportersError(null)
+      } catch (err) {
+        console.error('Failed to fetch supporters:', err)
+        setSupportersError('Failed to load supporters')
+      } finally {
+        setSupportersLoading(false)
+      }
+    }
+
+    fetchPartners()
+    fetchContributors()
+    fetchSupporters()
+  }, [])
+
+  const getTierColor = (tierName: string) => {
+    switch (tierName) {
       case 'Platinum': return 'bg-gradient-to-r from-gray-400 to-gray-600 text-white'
       case 'Gold': return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white'
       case 'Silver': return 'bg-gradient-to-r from-gray-300 to-gray-500 text-white'
@@ -101,8 +80,8 @@ export default function PartnersPage() {
     }
   }
 
-  const getTierIcon = (tier: string) => {
-    switch (tier) {
+  const getTierIcon = (tierName: string) => {
+    switch (tierName) {
       case 'Platinum': return <Award className="h-4 w-4" />
       case 'Gold': return <Star className="h-4 w-4" />
       case 'Silver': return <Award className="h-4 w-4" />
@@ -142,8 +121,29 @@ export default function PartnersPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {partners.map((partner) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {partnersLoading ? (
+            <div className="col-span-full text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading partners...</p>
+            </div>
+          ) : partnersError ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-red-500 mb-2">{partnersError}</p>
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.reload()}
+              >
+                Try Again
+              </Button>
+            </div>
+          ) : partners.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <Building2 className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+              <p className="text-muted-foreground">No partners found</p>
+            </div>
+          ) : (
+            partners.map((partner) => (
               <Card key={partner.id} className="border-border bg-card hover:shadow-lg transition-all duration-300 group">
                 <CardHeader className="text-center pb-4">
                   <div className="relative mx-auto mb-4">
@@ -157,14 +157,14 @@ export default function PartnersPage() {
                     />
                   </div>
                   <div className="flex items-center justify-center gap-2 mb-2">
-                    <Badge className={`${getTierColor(partner.tier)} px-3 py-1`}>
-                      {getTierIcon(partner.tier)}
-                      <span className="ml-1">{partner.tier}</span>
+                    <Badge className={`${getTierColor(partner.tier_name)} px-3 py-1`}>
+                      {getTierIcon(partner.tier_name)}
+                      <span className="ml-1">{partner.tier_name}</span>
                     </Badge>
                   </div>
                   <CardTitle className="font-serif font-bold text-xl">{partner.name}</CardTitle>
                   <CardDescription className="text-primary font-medium">
-                    {partner.type}
+                    {partner.partner_type_name}
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="text-center">
@@ -191,8 +191,9 @@ export default function PartnersPage() {
                   </p>
                 </CardContent>
               </Card>
-            ))}
-          </div>
+            ))
+          )}
+        </div>
         </div>
       </section>
 
@@ -209,79 +210,187 @@ export default function PartnersPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {contributors.map((contributor) => (
-              <Card key={contributor.id} className="border-border bg-background hover:shadow-lg transition-all duration-300">
-                <CardHeader className="text-center pb-4">
-                  <div className="relative mx-auto mb-4">
-                    <img 
-                      src={contributor.avatar} 
-                      alt={contributor.name}
-                      className="h-24 w-24 rounded-full object-cover border-4 border-primary/10"
-                      onError={(e) => {
-                        e.currentTarget.src = "/placeholder-user.jpg"
-                      }}
-                    />
-                    <div className="absolute -bottom-2 -right-2 bg-primary rounded-full p-2">
-                      <Heart className="h-4 w-4 text-primary-foreground" />
+            {contributorsLoading ? (
+              <div className="col-span-full text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-muted-foreground">Loading contributors...</p>
+              </div>
+            ) : contributorsError ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-red-500 mb-2">{contributorsError}</p>
+                <Button 
+                  variant="outline" 
+                  onClick={() => window.location.reload()}
+                >
+                  Try Again
+                </Button>
+              </div>
+            ) : contributors.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <Users className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+                <p className="text-muted-foreground">No contributors found</p>
+              </div>
+            ) : (
+              contributors.map((contributor) => (
+                <Card key={contributor.id} className="border-border bg-background hover:shadow-lg transition-all duration-300">
+                  <CardHeader className="text-center pb-4">
+                    <div className="relative mx-auto mb-4">
+                      <img 
+                        src={contributor.photo} 
+                        alt={contributor.full_name}
+                        className="h-24 w-24 rounded-full object-cover border-4 border-primary/10"
+                        onError={(e) => {
+                          e.currentTarget.src = "/placeholder-user.jpg"
+                        }}
+                      />
+                      <div className="absolute -bottom-2 -right-2 bg-primary rounded-full p-2">
+                        <Heart className="h-4 w-4 text-primary-foreground" />
+                      </div>
                     </div>
-                  </div>
-                  <CardTitle className="font-serif font-bold text-xl">{contributor.name}</CardTitle>
-                  <CardDescription className="text-secondary font-medium">
-                    {contributor.role}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="text-center">
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {contributor.contributions}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                    <div className="mb-2">
+                      <Badge 
+                        className="px-3 py-1 text-white"
+                        style={{ backgroundColor: contributor.role_badge_color }}
+                      >
+                        {contributor.role_name}
+                      </Badge>
+                    </div>
+                    <CardTitle className="font-serif font-bold text-xl">{contributor.full_name}</CardTitle>
+                    <CardDescription className="text-secondary font-medium">
+                      {contributor.bio}
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="text-center">
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-3">
+                      <strong>Achievements:</strong> {contributor.achievements}
+                    </p>
+                    {(contributor.linkedin || contributor.github || contributor.twitter || contributor.website) && (
+                      <div className="flex justify-center gap-2 mt-3">
+                        {contributor.linkedin && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={contributor.linkedin} target="_blank" rel="noopener noreferrer">
+                              LinkedIn
+                            </a>
+                          </Button>
+                        )}
+                        {contributor.github && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={contributor.github} target="_blank" rel="noopener noreferrer">
+                              GitHub
+                            </a>
+                          </Button>
+                        )}
+                        {contributor.twitter && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={contributor.twitter} target="_blank" rel="noopener noreferrer">
+                              Twitter
+                            </a>
+                          </Button>
+                        )}
+                        {contributor.website && (
+                          <Button size="sm" variant="outline" asChild>
+                            <a href={contributor.website} target="_blank" rel="noopener noreferrer">
+                              Website
+                            </a>
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </div>
       </section>
 
-      {/* Donors Section */}
-      <section id="donors" className="py-16 px-4">
+      {/* Supporters Section */}
+      <section id="supporters" className="py-16 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
             <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">
-              Recent Supporters
+              Our Supporters
             </h2>
             <p className="text-lg text-muted-foreground">
-              Generous donors who believe in our mission
+              Organizations and individuals who believe in our mission
             </p>
           </div>
 
-          <div className="space-y-6">
-            {donors.map((donor) => (
-              <Card key={donor.id} className="border-border bg-card">
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3 mb-2">
-                        <Heart className="h-5 w-5 text-red-500" />
-                        <h3 className="font-semibold text-lg">{donor.name}</h3>
-                        <Badge variant="secondary" className="bg-green-100 text-green-800">
-                          {donor.amount}
-                        </Badge>
+          {supportersLoading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading supporters...</p>
+            </div>
+          ) : supportersError ? (
+            <div className="text-center py-12">
+              <p className="text-red-500 mb-2">{supportersError}</p>
+              <Button 
+                variant="outline" 
+                onClick={() => window.location.reload()}
+              >
+                Try Again
+              </Button>
+            </div>
+          ) : supporters.length === 0 ? (
+            <div className="text-center py-12">
+              <Heart className="h-16 w-16 text-muted-foreground/30 mx-auto mb-4" />
+              <p className="text-muted-foreground">No supporters found</p>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {supporters.map((supporter) => (
+                <Card key={supporter.id} className="border-border bg-card">
+                  <CardContent className="p-6">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-4 mb-3">
+                          {supporter.logo && (
+                            <img 
+                              src={supporter.logo} 
+                              alt={supporter.name}
+                              className="h-12 w-12 object-contain rounded"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none'
+                              }}
+                            />
+                          )}
+                          <div className="flex-1">
+                            <div className="flex items-center gap-3 mb-1">
+                              <Heart className="h-5 w-5 text-red-500" />
+                              <h3 className="font-semibold text-lg">{supporter.name}</h3>
+                              <Badge variant="secondary" className="bg-blue-100 text-blue-800">
+                                {supporter.contribution_type}
+                              </Badge>
+                            </div>
+                            {supporter.website && (
+                              <Button size="sm" variant="outline" asChild className="mt-2">
+                                <a href={supporter.website} target="_blank" rel="noopener noreferrer">
+                                  <ExternalLink className="h-3 w-3 mr-1" />
+                                  Visit Website
+                                </a>
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                        {supporter.description && (
+                          <p className="text-muted-foreground italic mb-2">
+                            "{supporter.description}"
+                          </p>
+                        )}
+                        <p className="text-xs text-muted-foreground">
+                          Supporting since {new Date(supporter.support_date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </p>
                       </div>
-                      <p className="text-muted-foreground italic mb-2">
-                        "{donor.message}"
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        Donated on {new Date(donor.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </p>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

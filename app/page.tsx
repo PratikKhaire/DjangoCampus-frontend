@@ -1,16 +1,28 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, FormEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Users, Code, Heart, Calendar, MapPin, Mail, Github, Linkedin, Twitter, Instagram, Facebook, ExternalLink, ChevronLeft, ChevronRight } from "lucide-react"
+import { Users, Code, Heart, Calendar, MapPin, Mail, Github, Linkedin, Twitter, Instagram, Facebook, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Info } from "lucide-react"
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { workshopService } from "@/services/workshopService"
 import { teamService } from "@/services/teamService"
-import { Workshop, TeamMember } from "@/types/api"
+import { newsletterService, DuplicateSubscriptionError } from "@/services/newsletterService"
+import { Workshop, TeamMember, NewsletterSubscription } from "@/types/api"
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 
 export default function Home() {
   const [nextWorkshop, setNextWorkshop] = useState<Workshop | null>(null)
@@ -19,6 +31,16 @@ export default function Home() {
   const [teamLoading, setTeamLoading] = useState(true)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
+  
+  // Newsletter subscription states
+  const [newsletterEmail, setNewsletterEmail] = useState('')
+  const [newsletterName, setNewsletterName] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [subscriptionSuccess, setSubscriptionSuccess] = useState(false)
+  const [subscriptionError, setSubscriptionError] = useState<string | null>(null)
+  const [isDuplicateError, setIsDuplicateError] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [socialsDialogOpen, setSocialsDialogOpen] = useState(false)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -148,6 +170,62 @@ Best regards`
       })
     }
   }
+  
+  // Function to handle newsletter subscription
+  const handleNewsletterSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    
+    if (!newsletterEmail) {
+      setSubscriptionError('Email is required')
+      setIsDuplicateError(false)
+      return
+    }
+
+    if (!/\S+@\S+\.\S+/.test(newsletterEmail)) {
+      setSubscriptionError('Please enter a valid email address')
+      setIsDuplicateError(false)
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubscriptionError(null)
+
+    try {
+      const subscription: NewsletterSubscription = {
+        email: newsletterEmail,
+        name: newsletterName || undefined // Only include name if provided
+      }
+
+      await newsletterService.subscribe(subscription)
+      setSubscriptionSuccess(true)
+      setIsDuplicateError(false)
+      
+      // Reset form after successful submission
+      setTimeout(() => {
+        setNewsletterEmail('')
+        setNewsletterName('')
+        // Close dialog after showing success message for 3 seconds
+        setTimeout(() => {
+          setDialogOpen(false)
+          setSubscriptionSuccess(false)
+        }, 3000)
+      }, 500)
+    } catch (error: any) {
+      console.error('Subscription error:', error)
+      
+      // Check if this is our custom duplicate error
+      if (error.name === 'DuplicateSubscriptionError') {
+        setIsDuplicateError(true)
+        setSubscriptionError(error.message || 'This email is already subscribed to our newsletter.')
+      } else {
+        setIsDuplicateError(false)
+        setSubscriptionError('Failed to subscribe. Please try again later.')
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
     
@@ -499,17 +577,272 @@ Best regards`
             Join hundreds of youth who've discovered the joy of programming with Django Campus
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="secondary">
-              <Mail className="mr-2 h-5 w-5" />
-              Get Workshop Updates
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
+            <Dialog 
+              open={dialogOpen} 
+              onOpenChange={(open) => {
+                setDialogOpen(open)
+                if (open) {
+                  // Reset states when dialog is opened
+                  setSubscriptionError(null)
+                  setIsDuplicateError(false)
+                  setSubscriptionSuccess(false)
+                }
+              }}
             >
-              Follow Us on Social
-            </Button>
+              <DialogTrigger asChild>
+                <Button size="lg" variant="secondary">
+                  <Mail className="mr-2 h-5 w-5" />
+                  Get Workshop Updates
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-serif font-bold">
+                    {subscriptionSuccess ? 'Thank You!' : 'Get Workshop Updates'}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {subscriptionSuccess 
+                      ? 'You have successfully subscribed to our workshop updates!'
+                      : 'Subscribe to our newsletter to get the latest workshop updates.'}
+                  </DialogDescription>
+                </DialogHeader>
+                
+                {subscriptionSuccess ? (
+                  <div className="py-6 flex flex-col items-center">
+                    <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
+                    <p className="text-center font-medium">
+                      Thank you for subscribing! We're excited to have you join our community.
+                    </p>
+                  </div>
+                ) : (
+                  <form onSubmit={handleNewsletterSubmit} className="space-y-4 py-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Name (Optional)</Label>
+                      <Input 
+                        id="name" 
+                        value={newsletterName}
+                        onChange={(e) => setNewsletterName(e.target.value)}
+                        placeholder="Your name" 
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email <span className="text-red-500">*</span></Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        value={newsletterEmail}
+                        onChange={(e) => setNewsletterEmail(e.target.value)}
+                        placeholder="Your email address" 
+                        required 
+                      />
+                    </div>
+                    
+                    {subscriptionError && (
+                      <div className={`border rounded-md p-3 text-sm flex items-center ${
+                        isDuplicateError 
+                          ? "bg-blue-50 border-blue-300 text-blue-800" 
+                          : "bg-red-100 border-red-300 text-red-800"
+                      }`}>
+                        {isDuplicateError 
+                          ? <Info className="h-4 w-4 mr-2 flex-shrink-0 text-blue-500" />
+                          : <XCircle className="h-4 w-4 mr-2 flex-shrink-0" />
+                        }
+                        {subscriptionError}
+                      </div>
+                    )}
+                    
+                    <div className="flex justify-end gap-3 pt-2">
+                      <DialogClose asChild>
+                        <Button type="button" variant="outline">Cancel</Button>
+                      </DialogClose>
+                      <Button 
+                        type="submit" 
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Subscribing...' : 'Subscribe'}
+                      </Button>
+                    </div>
+                  </form>
+                )}
+              </DialogContent>
+            </Dialog>
+            
+            {/* Social Media Dialog */}
+            <Dialog open={socialsDialogOpen} onOpenChange={setSocialsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary bg-transparent"
+                >
+                  Follow Us on Social
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md bg-background/95 backdrop-blur-sm border-primary/20">
+                <DialogHeader>
+                  <DialogTitle className="text-center text-2xl font-serif font-bold">Connect With Us</DialogTitle>
+                  <DialogDescription className="text-center">
+                    Follow us on social media to stay updated with our latest workshops and events.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="flex justify-center gap-6 py-8">
+                  {/* Medium */}
+                  <a 
+                    href="https://medium.com/@djangocampus" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-icon-link group"
+                  >
+                    <div className="social-icon-container medium-icon">
+                      <svg 
+                        viewBox="0 0 24 24" 
+                        className="h-8 w-8 text-gray-800 group-hover:text-black transition-all duration-300"
+                        fill="currentColor"
+                      >
+                        <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
+                      </svg>
+                      <span className="social-label">Medium</span>
+                    </div>
+                  </a>
+                  
+                  {/* LinkedIn */}
+                  <a 
+                    href="https://linkedin.com/company/djangocampus" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-icon-link group"
+                  >
+                    <div className="social-icon-container linkedin-icon">
+                      <Linkedin className="h-8 w-8 text-blue-600 group-hover:text-blue-700 transition-all duration-300" />
+                      <span className="social-label">LinkedIn</span>
+                    </div>
+                  </a>
+                  
+                  {/* Mastodon */}
+                  <a 
+                    href="https://mastodon.social/@djangocampus" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-icon-link group"
+                  >
+                    <div className="social-icon-container mastodon-icon">
+                      <svg 
+                        viewBox="0 0 24 24" 
+                        className="h-8 w-8 text-purple-600 group-hover:text-purple-700 transition-all duration-300"
+                        fill="currentColor"
+                      >
+                        <path d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z"/>
+                      </svg>
+                      <span className="social-label">Mastodon</span>
+                    </div>
+                  </a>
+                  
+                  {/* X (Twitter) */}
+                  <a 
+                    href="https://x.com/djangocampus" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="social-icon-link group"
+                  >
+                    <div className="social-icon-container x-icon">
+                      <svg 
+                        viewBox="0 0 24 24" 
+                        className="h-8 w-8 text-gray-900 group-hover:text-black transition-all duration-300"
+                        fill="currentColor"
+                      >
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
+                      <span className="social-label">X</span>
+                    </div>
+                  </a>
+                </div>
+                <style jsx global>{`
+                  .social-icon-link {
+                    position: relative;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                  }
+                  
+                  .social-icon-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 64px;
+                    width: 64px;
+                    border-radius: 50%;
+                    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    position: relative;
+                  }
+                  
+                  .social-icon-link:hover .social-icon-container {
+                    transform: translateY(-8px);
+                  }
+                  
+                  .medium-icon {
+                    background-color: rgba(0, 0, 0, 0.05);
+                  }
+                  
+                  .linkedin-icon {
+                    background-color: rgba(10, 102, 194, 0.1);
+                  }
+                  
+                  .mastodon-icon {
+                    background-color: rgba(99, 100, 255, 0.1);
+                  }
+                  
+                  .x-icon {
+                    background-color: rgba(0, 0, 0, 0.05);
+                  }
+                  
+                  .social-icon-link:hover .medium-icon {
+                    background-color: rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+                  }
+                  
+                  .social-icon-link:hover .linkedin-icon {
+                    background-color: rgba(10, 102, 194, 0.2);
+                    box-shadow: 0 10px 25px -5px rgba(10, 102, 194, 0.4);
+                  }
+                  
+                  .social-icon-link:hover .mastodon-icon {
+                    background-color: rgba(99, 100, 255, 0.2);
+                    box-shadow: 0 10px 25px -5px rgba(99, 100, 255, 0.4);
+                  }
+                  
+                  .social-icon-link:hover .x-icon {
+                    background-color: rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+                  }
+                  
+                  .social-label {
+                    opacity: 0;
+                    transform: translateY(10px);
+                    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                    position: absolute;
+                    bottom: -24px;
+                    font-size: 0.875rem;
+                    font-weight: 500;
+                  }
+                  
+                  .social-icon-link:hover .social-label {
+                    opacity: 1;
+                    transform: translateY(0);
+                  }
+                  
+                  @keyframes pulse {
+                    0% { transform: scale(1); }
+                    50% { transform: scale(1.1); }
+                    100% { transform: scale(1); }
+                  }
+                  
+                  .social-icon-container:hover svg {
+                    animation: pulse 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+                  }
+                `}</style>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </section>

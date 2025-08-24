@@ -686,28 +686,24 @@ Best regards`
                   </DialogDescription>
                 </DialogHeader>
                 <div className="flex justify-center gap-6 py-8">
-                  {/* Medium */}
+                  {/* Instagram */}
                   <a 
-                    href="https://medium.com/@djangocampus" 
+                    href="https://www.instagram.com/djangocampus?igsh=N2I3MXB0aXdjMjEz" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="social-icon-link group"
                   >
-                    <div className="social-icon-container medium-icon">
-                      <svg 
-                        viewBox="0 0 24 24" 
-                        className="h-8 w-8 text-gray-800 group-hover:text-black transition-all duration-300"
-                        fill="currentColor"
-                      >
-                        <path d="M13.54 12a6.8 6.8 0 01-6.77 6.82A6.8 6.8 0 010 12a6.8 6.8 0 016.77-6.82A6.8 6.8 0 0113.54 12zM20.96 12c0 3.54-1.51 6.42-3.38 6.42-1.87 0-3.39-2.88-3.39-6.42s1.52-6.42 3.39-6.42 3.38 2.88 3.38 6.42M24 12c0 3.17-.53 5.75-1.19 5.75-.66 0-1.19-2.58-1.19-5.75s.53-5.75 1.19-5.75C23.47 6.25 24 8.83 24 12z"/>
-                      </svg>
-                      <span className="social-label">Medium</span>
+                    <div className="social-icon-container instagram-icon">
+                      <Instagram 
+                        className="h-8 w-8 text-pink-600 group-hover:text-pink-700 transition-all duration-300"
+                      />
+                      <span className="social-label">Instagram</span>
                     </div>
                   </a>
                   
                   {/* LinkedIn */}
                   <a 
-                    href="https://linkedin.com/company/djangocampus" 
+                    href="https://www.linkedin.com/company/djangocampus/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="social-icon-link group"
@@ -784,6 +780,10 @@ Best regards`
                     background-color: rgba(0, 0, 0, 0.05);
                   }
                   
+                  .instagram-icon {
+                    background-color: rgba(225, 48, 108, 0.1);
+                  }
+                  
                   .linkedin-icon {
                     background-color: rgba(10, 102, 194, 0.1);
                   }
@@ -799,6 +799,11 @@ Best regards`
                   .social-icon-link:hover .medium-icon {
                     background-color: rgba(0, 0, 0, 0.15);
                     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+                  }
+                  
+                  .social-icon-link:hover .instagram-icon {
+                    background-color: rgba(225, 48, 108, 0.2);
+                    box-shadow: 0 10px 25px -5px rgba(225, 48, 108, 0.4);
                   }
                   
                   .social-icon-link:hover .linkedin-icon {

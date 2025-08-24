@@ -1035,7 +1035,7 @@ Best regards`
             <Button 
               size="lg" 
               className="bg-primary hover:bg-primary/90"
-              onClick={() => window.open('https://paystack.com/pay/djangocampus-50', '_blank')}
+              onClick={() => window.open('https://paystack.shop/pay/djangocampus-50', '_blank')}
             >
               <Heart className="mr-2 h-5 w-5" />
               Donate $50
@@ -1043,7 +1043,7 @@ Best regards`
             <Button 
               variant="outline" 
               size="lg"
-              onClick={() => window.open('https://paystack.com/pay/djangocampus-donate', '_blank')}
+              onClick={() => window.open('https://paystack.shop/pay/djangocampus-donate', '_blank')}
             >
               <Heart className="mr-2 h-5 w-5" />
               Custom Amount

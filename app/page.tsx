@@ -4,7 +4,7 @@ import { useState, useEffect, FormEvent } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Users, Code, Heart, Calendar, MapPin, Mail, Github, Linkedin, Twitter, Instagram, Facebook, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Info } from "lucide-react"
+import { Users, Code, Heart, Calendar, MapPin, Mail, Github, Linkedin, Twitter, Instagram, Facebook, ExternalLink, ChevronLeft, ChevronRight, CheckCircle2, XCircle, Info, Clock } from "lucide-react"
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
@@ -347,6 +347,12 @@ Best regards`
                       <Calendar className="h-4 w-4" />
                       {formatDate(nextWorkshop.workshop_date)}
                     </CardDescription>
+                    {nextWorkshop.workshop_time && (
+                      <CardDescription className="flex items-center gap-2 mt-1">
+                        <Clock className="h-4 w-4" />
+                        {nextWorkshop.workshop_time}
+                      </CardDescription>
+                    )}
                     <CardDescription className="flex items-center gap-2 mt-1">
                       <MapPin className="h-4 w-4" />
                       {nextWorkshop.workshop_location}

@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState } from "react"
@@ -29,6 +28,9 @@ export default function Header() {
           </a>
           <a href="/workshops" className="text-foreground hover:text-primary transition-colors">
             Workshops
+          </a>
+          <a href="/playground" className="text-foreground hover:text-primary transition-colors">
+            Playground
           </a>
           <a href="#community" className="text-foreground hover:text-primary transition-colors">
             Community
@@ -66,6 +68,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Workshops
+            </a>
+            <a 
+              href="/playground" 
+              className="text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Playground
             </a>
             <a 
               href="#community" 

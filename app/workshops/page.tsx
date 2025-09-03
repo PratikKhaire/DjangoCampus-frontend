@@ -31,6 +31,8 @@ export default function WorkshopsPage() {
   const [selectedWorkshop, setSelectedWorkshop] = useState<number | null>(null)
   const [showSuccessPopup, setShowSuccessPopup] = useState(false)
   const [registeredWorkshopName, setRegisteredWorkshopName] = useState("")
+  const [registeredWorkshopDate, setRegisteredWorkshopDate] = useState("")
+  const [registeredWorkshopTime, setRegisteredWorkshopTime] = useState("")
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -85,6 +87,8 @@ export default function WorkshopsPage() {
       // Find the workshop name for the success popup
       const workshop = workshops.find((w: Workshop) => w.id === selectedWorkshop)
       setRegisteredWorkshopName(workshop?.workshop_name || "the workshop")
+      setRegisteredWorkshopDate(workshop?.workshop_date ? formatDate(workshop.workshop_date) : "")
+      setRegisteredWorkshopTime(workshop?.workshop_time || "")
       
       // Show success popup
       setShowSuccessPopup(true)
@@ -224,6 +228,12 @@ export default function WorkshopsPage() {
                         <Calendar className="h-4 w-4" />
                         {formatDate(workshop.workshop_date)}
                       </div>
+                      {workshop.workshop_time && (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <Clock className="h-4 w-4" />
+                          {workshop.workshop_time}
+                        </div>
+                      )}
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <MapPin className="h-4 w-4" />
                         {workshop.workshop_location}
@@ -258,6 +268,7 @@ export default function WorkshopsPage() {
                           <DialogTitle className="font-serif font-bold">Register for Workshop</DialogTitle>
                           <DialogDescription>
                             {workshop.workshop_name} - {formatDate(workshop.workshop_date)}
+                            {workshop.workshop_time && ` at ${workshop.workshop_time}`}
                           </DialogDescription>
                         </DialogHeader>
                         <form onSubmit={handleSubmit} className="space-y-4">
@@ -409,6 +420,21 @@ export default function WorkshopsPage() {
                 <p className="mb-6 text-lg text-gray-600">
                   You've successfully registered for <br />
                   <span className="font-bold text-primary">{registeredWorkshopName}</span>
+                  {registeredWorkshopDate && (
+                    <>
+                      <br />
+                      <span className="text-sm font-medium text-gray-700">
+                        <Calendar className="mr-1 inline-block h-4 w-4" />
+                        {registeredWorkshopDate}
+                        {registeredWorkshopTime && (
+                          <>
+                            <Clock className="ml-2 mr-1 inline-block h-4 w-4" />
+                            {registeredWorkshopTime}
+                          </>
+                        )}
+                      </span>
+                    </>
+                  )}
                 </p>
                 
                 {/* Email Icon with Animation */}

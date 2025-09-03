@@ -3,6 +3,7 @@ export interface Workshop {
   workshop_image_header?: string
   workshop_name: string
   workshop_date: string
+  workshop_time?: string
   workshop_location: string
   is_ended: boolean
   registrations_count: string
@@ -21,6 +22,7 @@ export interface Registration {
   workshop: number
   workshop_name?: string
   workshop_date?: string
+  workshop_time?: string
   user_name: string
   user_email: string
   phone_number: string  // Made required since your form requires it

@@ -23,7 +23,7 @@ export default function Header() {
           <a href="/" className="text-foreground hover:text-primary transition-colors">
             Home
           </a>
-          <a href="#about" className="text-foreground hover:text-primary transition-colors">
+          <a href="/#about" className="text-foreground hover:text-primary transition-colors">
             About
           </a>
           <a href="/workshops" className="text-foreground hover:text-primary transition-colors">
@@ -32,7 +32,7 @@ export default function Header() {
           <a href="/playground" className="text-foreground hover:text-primary transition-colors">
             Playground
           </a>
-          <a href="#community" className="text-foreground hover:text-primary transition-colors">
+          <a href="/#community" className="text-foreground hover:text-primary transition-colors">
             Community
           </a>
           <a href="/partners" className="text-foreground hover:text-primary transition-colors">
@@ -56,7 +56,14 @@ export default function Header() {
         <div className="md:hidden border-t border-border bg-card/95 backdrop-blur-sm">
           <nav className="container mx-auto px-4 py-4 flex flex-col gap-4">
             <a 
-              href="#about" 
+              href="/" 
+              className="text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Home
+            </a>
+            <a 
+              href="/#about" 
               className="text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -77,7 +84,7 @@ export default function Header() {
               Playground
             </a>
             <a 
-              href="#community" 
+              href="/#community" 
               className="text-foreground hover:text-primary transition-colors py-2 border-b border-border/50"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -91,9 +98,11 @@ export default function Header() {
               Partners
             </a>
             <div className="pt-2">
-              <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
-                Join Us
-              </Button>
+              <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39" className="block w-full">
+                <Button className="w-full" onClick={() => setIsMobileMenuOpen(false)}>
+                  Join Us
+                </Button>
+              </a>
             </div>
           </nav>
         </div>

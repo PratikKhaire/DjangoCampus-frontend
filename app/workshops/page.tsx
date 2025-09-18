@@ -50,7 +50,6 @@ export default function WorkshopsPage() {
         const data = await workshopService.getWorkshops()
         setWorkshops(data)
       } catch (error) {
-        console.error('Error fetching workshops:', error)
         alert('Failed to load workshops. Please try again later.')
       } finally {
         setLoading(false)
@@ -81,7 +80,6 @@ export default function WorkshopsPage() {
         django_experience: formData.django_experience as 'Beginner' | 'Intermediate' | 'Advanced',
       }
 
-      console.log('Submitting registration:', registration)
       await workshopService.registerForWorkshop(registration)
       
       // Find the workshop name for the success popup

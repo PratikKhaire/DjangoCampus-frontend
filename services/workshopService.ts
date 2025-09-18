@@ -8,7 +8,6 @@ export const workshopService = {
       const response: ApiResponse<Workshop> = await apiClient.get('/workshops/')
       return response.results || []
     } catch (error) {
-      console.error('Error fetching workshops:', error)
       throw error
     }
   },
@@ -19,7 +18,6 @@ export const workshopService = {
       const response: ApiResponse<Workshop> = await apiClient.get('/workshops/?is_ended=false')
       return response.results || []
     } catch (error) {
-      console.error('Error fetching upcoming workshops:', error)
       throw error
     }
   },
@@ -30,7 +28,6 @@ export const workshopService = {
       const response: ApiResponse<Workshop> = await apiClient.get(`/workshops/${id}/`)
       return response.data!
     } catch (error) {
-      console.error(`Error fetching workshop ${id}:`, error)
       throw error
     }
   },
@@ -41,7 +38,6 @@ export const workshopService = {
       const response: ApiResponse<Registration> = await apiClient.post('/workshops/register/', registration)
       return response.data!
     } catch (error) {
-      console.error('Error registering for workshop:', error)
       throw error
     }
   },
@@ -52,7 +48,6 @@ export const workshopService = {
       const response = await apiClient.get(`/workshops/${workshopId}/check-registration/?email=${email}`)
       return response.is_registered
     } catch (error) {
-      console.error('Error checking registration:', error)
       return false
     }
   }

@@ -15,18 +15,13 @@ export const newsletterService = {
     try {
       // Using apiClient.post for consistency with other services
       // Note: Django requires a trailing slash for POST endpoints
-      console.log('Attempting to subscribe with data:', subscription)
-      
       const response = await apiClient.post('/subscribers/', {
         name: subscription.name || "Subscriber", // Fallback name if not provided
         email: subscription.email
       })
       
-      console.log('Subscription response:', response)
       return response
     } catch (error: any) {
-      console.error('Error subscribing to newsletter:', error)
-      
       // Check if this is a duplicate email error
       // The error message comes as a string that needs to be parsed
       if (error.message && error.message.includes('already exists')) {

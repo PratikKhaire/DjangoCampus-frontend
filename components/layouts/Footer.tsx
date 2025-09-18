@@ -59,7 +59,7 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li>juliusboakye@pythonghana.org</li>
+              <li>campus.django@gmail.com</li>
               <li>Accra, Ghana</li>
               <li>+233 50 015 9892</li>
             </ul>

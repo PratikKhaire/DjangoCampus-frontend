@@ -409,9 +409,9 @@ export default function PartnersPage() {
               size="lg" 
               variant="secondary"
               onClick={() => {
-                const email = 'juliusboakye@pythonghana.org'
+                const email = 'campus.django@gmail.com'
                 const subject = 'Partnership Inquiry - DjangoCampus'
-                const body = `Hello Julius,
+                const body = `Hello DjangoCampus Team,
 
 I'm interested in partnering with DjangoCampus to support your mission.
 

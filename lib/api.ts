@@ -18,8 +18,6 @@ export const apiClient = {
 
   async post(endpoint: string, data: any) {
     const url = `${API_BASE_URL}${endpoint}`
-    console.log('POST Request URL:', url)
-    console.log('POST Request Data:', JSON.stringify(data, null, 2))
     
     const response = await fetch(url, {
       method: 'POST',
@@ -29,17 +27,12 @@ export const apiClient = {
       body: JSON.stringify(data),
     })
     
-    console.log('POST Response Status:', response.status)
-    console.log('POST Response OK:', response.ok)
-    
     if (!response.ok) {
       const errorText = await response.text()
-      console.error('POST Error Response:', errorText)
       throw new Error(`API Error: ${response.status} ${response.statusText} - ${errorText}`)
     }
     
     const responseData = await response.json()
-    console.log('POST Response Data:', responseData)
     return responseData
   },
 

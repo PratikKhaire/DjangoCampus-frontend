@@ -8,7 +8,6 @@ export const communityService = {
       const response: ApiResponse<CommunityMember> = await apiClient.get('/community/members/')
       return response.results || []
     } catch (error) {
-      console.error('Error fetching community members:', error)
       throw error
     }
   },
@@ -19,7 +18,6 @@ export const communityService = {
       const response: ApiResponse<CommunityMember> = await apiClient.get('/community/testimonials/featured/')
       return response.results || []
     } catch (error) {
-      console.error('Error fetching featured testimonials:', error)
       throw error
     }
   }

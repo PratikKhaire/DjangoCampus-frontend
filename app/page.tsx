@@ -139,9 +139,9 @@ export default function Home() {
 
   // Function to handle email contact
   const handleContactEmail = () => {
-    const email = 'juliusboakye@pythonghana.org'
+    const email = 'campus.django@gmail.com'
     const subject = 'Interest in Joining DjangoCampus Team'
-    const body = `Hello Julius,
+    const body = `Hello DjangoCampus Team,
 
 I'm interested in joining the DjangoCampus team as an educator/mentor.
 
@@ -1058,7 +1058,7 @@ Best regards`
               variant="outline" 
               size="lg"
               onClick={() => {
-                const email = 'juliusboakye@pythonghana.org'
+                const email = 'campus.django@gmail.com'
                 const subject = 'Partnership & Sponsorship Inquiry - DjangoCampus'
                 const body = `Hello Julius,
 

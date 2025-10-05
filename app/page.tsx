@@ -8,6 +8,7 @@ import { Users, Code, Heart, Calendar, MapPin, Mail, Github, Linkedin, Twitter, 
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
+import HacktoberfestHero from "@/components/HacktoberfestHero"
 import { workshopService } from "@/services/workshopService"
 import { teamService } from "@/services/teamService"
 import { newsletterService, DuplicateSubscriptionError } from "@/services/newsletterService"
@@ -232,37 +233,8 @@ Best regards`
       <Header />
 
       {/* Main Content */}
-      {/* Hero Section */}
-      <section className="py-20 px-4 bg-gradient-to-br from-card to-background">
-        <div className="container mx-auto text-center max-w-4xl">
-          <Badge className="mb-6 bg-secondary text-secondary-foreground">Empowering Youth in Tech with Django</Badge>
-          <h1 className="font-serif font-black text-4xl md:text-6xl text-foreground mb-6 leading-tight">
-            Learn Django.
-            <br />
-            <span className="text-primary">Build Amazing Things.</span>
-            <br />
-            Change the World.
-          </h1>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            Join DjangoCampus and discover the power of programming. Our free workshops welcome youth of all
-            backgrounds to learn web development in a supportive, inclusive environment.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-primary hover:bg-primary/90" asChild>
-              <a href="/workshops">
-                <Calendar className="mr-2 h-5 w-5" />
-                Join Next Workshop
-              </a>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39">
-                <Users className="mr-2 h-5 w-5" />
-                Meet Our Community
-              </a>
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* Hacktoberfest Hero Section */}
+      <HacktoberfestHero />
 
       {/* About Section */}
       <section id="about" className="py-16 px-4">

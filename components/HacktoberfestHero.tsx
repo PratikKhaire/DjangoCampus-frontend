@@ -5,6 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, Users, Github } from "lucide-react"
 import Typewriter from 'typewriter-effect'
+import SplitText from "./SplitText"
+import MagneticButton from "./MagneticButton"
+import TextReveal from "./TextReveal"
+import BlurText from "./BlurText"
+import ShuffleText from "./ShuffleText"
+import FocusCard from "./FocusCard"
 
 export default function HacktoberfestHero() {
   const [isVisible, setIsVisible] = useState(false)
@@ -35,18 +41,24 @@ export default function HacktoberfestHero() {
         <div className={`transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           
           {/* Hacktoberfest Badge */}
-          <Badge className="mb-8 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-lg px-6 py-2 animate-bounce">
-            🎃 Hacktoberfest 2025 🎃
-          </Badge>
+          {/* <FocusCard>
+            <Badge className="mb-8 bg-gradient-to-r from-orange-500 to-pink-500 text-white text-lg px-6 py-2 animate-bounce font-mono tracking-wide">
+              <ShuffleText text="🎃 Hacktoberfest 2025 🎃" delay={0} />
+            </Badge>
+          </FocusCard> */}
 
-          {/* Main Heading with Typing Effect */}
+          {/* Main Heading with Enhanced Animations */}
           <div className="mb-8">
-            <h1 className="font-black text-5xl md:text-7xl lg:text-8xl text-white mb-4 leading-tight">
-              <div className="text-orange-400">This October</div>
-              <div className="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
+            <h1 className="font-black text-5xl md:text-7xl lg:text-8xl text-white mb-4 leading-tight tracking-tight">
+              <BlurText 
+                text="This October" 
+                className="text-red-400 block font-serif tracking-wider"
+                delay={0.3}
+              />
+              <div className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent font-serif">
                 <Typewriter
                   options={{
-                    strings: ['Hacktoberfest', 'Open Source', 'Collaboration', 'Innovation'],
+                    strings: ['Hacktoberfest', 'Open Source', 'Collaboration', '', "Learn", "Contribute", "Grow"],
                     autoStart: true,
                     loop: true,
                     delay: 100,
@@ -54,75 +66,89 @@ export default function HacktoberfestHero() {
                   }}
                 />
               </div>
-              {/* <div className="text-white">We Feast</div> */}
-              {/* <div className="text-gradient bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                on DjangoCampus
-              </div> */}
+             
+             
             </h1>
           </div>
 
-          {/* Subtitle */}
-          <div className="mb-12">
-            <p className="text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed">
-              Join us this Hacktoberfest and contribute to open source! 
-              <span className="block mt-2 text-orange-300 font-semibold">
-                Let's hack, learn, and build amazing things together! 🚀
+          {/* Subtitle with Enhanced Typography */}
+          <TextReveal className="mb-12" delay={0.5}>
+            <p className="text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto leading-relaxed font-sans">
+              <BlurText 
+                text="Join us this Hacktoberfest and contribute to open source!" 
+                delay={2.0}
+                className="block"
+              />
+              <span className="block mt-2 text-orange-300 font-semibold tracking-wide">
+                <ShuffleText 
+                  text="Let's hack, learn, and build amazing things together! 🚀" 
+                  delay={3000}
+                />
               </span>
             </p>
-          </div>
+          </TextReveal>
 
-          {/* Call to Action Buttons */}
+          {/* Call to Action Buttons with Magnetic Effect */}
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 shadow-2xl"
-              asChild
+            <MagneticButton 
+              className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white text-lg px-8 py-4 rounded-lg shadow-2xl border-0 cursor-pointer"
+              strength={0.3}
             >
-              <a href="/workshops">
+              <a href="/workshops" className="flex items-center">
                 <Calendar className="mr-3 h-6 w-6" />
                 Join Our Workshop
               </a>
-            </Button>
+            </MagneticButton>
 
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-black text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 bg-black/50 backdrop-blur-sm"
-              asChild
+            <MagneticButton 
+              className="border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-black text-lg px-8 py-4 rounded-lg bg-black/50 backdrop-blur-sm cursor-pointer"
+              strength={0.3}
             >
-              <a href="https://github.com/Darkbeast-glitch/learnDjWithJulius" target="_blank" rel="noopener noreferrer">
+              <a href="https://github.com/Darkbeast-glitch/learnDjWithJulius" target="_blank" rel="noopener noreferrer" className="flex items-center">
                 <Github className="mr-3 h-6 w-6" />
                 Contribute Now
               </a>
-            </Button>
+            </MagneticButton>
 
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white text-lg px-8 py-4 transform hover:scale-105 transition-all duration-300 bg-black/50 backdrop-blur-sm"
-              asChild
+            <MagneticButton 
+              className="border-2 border-purple-400 text-purple-400 hover:bg-purple-400 hover:text-white text-lg px-8 py-4 rounded-lg bg-black/50 backdrop-blur-sm cursor-pointer"
+              strength={0.3}
             >
-              <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39">
+              <a href="https://whatsapp.com/channel/0029VbB2boDEawdueVgsYC39" className="flex items-center">
                 <Users className="mr-3 h-6 w-6" />
                 Join Community
               </a>
-            </Button>
+            </MagneticButton>
           </div>
 
-          {/* Stats or Additional Info */}
+          {/* Stats with Focus Cards */}
           <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-orange-400 mb-2">31</div>
-              <div className="text-gray-300 text-lg">Days of Coding</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-green-400 mb-2">4</div>
-              <div className="text-gray-300 text-lg">Pull Requests Needed</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-purple-400 mb-2">∞</div>
-              <div className="text-gray-300 text-lg">Learning Opportunities</div>
-            </div>
+            <FocusCard className="text-center p-6 rounded-lg border border-orange-400/20 bg-black/20 backdrop-blur-sm">
+              <BlurText 
+                text="31" 
+                className="text-3xl md:text-4xl font-bold text-orange-400 mb-2 font-mono"
+                delay={3.5}
+              />
+              <div className="text-gray-300 text-lg font-light">Days of Coding</div>
+            </FocusCard>
+            
+            <FocusCard className="text-center p-6 rounded-lg border border-green-400/20 bg-black/20 backdrop-blur-sm">
+              <BlurText 
+                text="4" 
+                className="text-3xl md:text-4xl font-bold text-green-400 mb-2 font-mono"
+                delay={4.0}
+              />
+              <div className="text-gray-300 text-lg font-light">Pull Requests Needed</div>
+            </FocusCard>
+            
+            <FocusCard className="text-center p-6 rounded-lg border border-purple-400/20 bg-black/20 backdrop-blur-sm">
+              <BlurText 
+                text="∞" 
+                className="text-3xl md:text-4xl font-bold text-purple-400 mb-2 font-mono"
+                delay={4.5}
+              />
+              <div className="text-gray-300 text-lg font-light">Learning Opportunities</div>
+            </FocusCard>
           </div>
         </div>
       </div>

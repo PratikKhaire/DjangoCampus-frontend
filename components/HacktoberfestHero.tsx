@@ -52,7 +52,7 @@ export default function HacktoberfestHero() {
             <h1 className="font-black text-5xl md:text-7xl lg:text-8xl text-white mb-4 leading-tight tracking-tight">
               <BlurText 
                 text="This October" 
-                className="text-red-400 block font-serif tracking-wider"
+                className="text-white-400 block font-serif tracking-wider"
                 delay={0.3}
               />
               <div className="bg-gradient-to-r from-green-400 via-blue-400 to-purple-400 bg-clip-text text-transparent font-serif">
@@ -80,9 +80,9 @@ export default function HacktoberfestHero() {
                 className="block"
               />
               <span className="block mt-2 text-orange-300 font-semibold tracking-wide">
-                <ShuffleText 
+                <BlurText  
                   text="Let's hack, learn, and build amazing things together! 🚀" 
-                  delay={3000}
+                  delay={3.0}
                 />
               </span>
             </p>

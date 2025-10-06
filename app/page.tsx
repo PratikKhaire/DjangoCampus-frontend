@@ -9,6 +9,9 @@ import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import HacktoberfestHero from "@/components/HacktoberfestHero"
+import HoverLiftCard from "@/components/HoverLiftCard"
+import TextReveal from "@/components/TextReveal"
+import FloatingButton from "@/components/FloatingButton"
 import { workshopService } from "@/services/workshopService"
 import { teamService } from "@/services/teamService"
 import { newsletterService, DuplicateSubscriptionError } from "@/services/newsletterService"
@@ -240,54 +243,64 @@ Best regards`
       <section id="about" className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-12">
-            <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">What is DjangoCampus?</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're a dedicated team that organizes free Django workshops on different campuses. We're open for partnerships to bring quality programming education to more students.
-            </p>
+            <TextReveal>
+              <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">What is DjangoCampus?</h2>
+            </TextReveal>
+            <TextReveal delay={0.2}>
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                We're a dedicated team that organizes free Django workshops on different campuses. We're open for partnerships to bring quality programming education to more students.
+              </p>
+            </TextReveal>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="border-border bg-card hover:shadow-lg transition-shadow">
-              <CardHeader className="text-center">
-                <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                  <Code className="h-8 w-8 text-primary" />
-                </div>
-                <CardTitle className="font-serif font-bold">Learn to Code</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center">
-                  Master Django web framework through hands-on tutorials and real projects. No prior experience needed!
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <HoverLiftCard className="border-border bg-card rounded-lg">
+              <Card className="h-full border-0 bg-transparent">
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
+                    <Code className="h-8 w-8 text-primary" />
+                  </div>
+                  <CardTitle className="font-serif font-bold">Learn to Code</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-center">
+                    Master Django web framework through hands-on tutorials and real projects. No prior experience needed!
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </HoverLiftCard>
 
-            <Card className="border-border bg-card hover:shadow-lg transition-shadow">
-              <CardHeader className="text-center">
-                <div className="mx-auto mb-4 p-3 bg-secondary/10 rounded-full w-fit">
-                  <Users className="h-8 w-8 text-secondary" />
-                </div>
-                <CardTitle className="font-serif font-bold">Build Community</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center">
-                  Connect with like-minded peers, find mentors, and become part of a vibrant global tech community.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <HoverLiftCard className="border-border bg-card rounded-lg">
+              <Card className="h-full border-0 bg-transparent">
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 p-3 bg-secondary/10 rounded-full w-fit">
+                    <Users className="h-8 w-8 text-secondary" />
+                  </div>
+                  <CardTitle className="font-serif font-bold">Build Community</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-center">
+                    Connect with like-minded peers, find mentors, and become part of a vibrant global tech community.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </HoverLiftCard>
 
-            <Card className="border-border bg-card hover:shadow-lg transition-shadow">
-              <CardHeader className="text-center">
-                <div className="mx-auto mb-4 p-3 bg-accent/10 rounded-full w-fit">
-                  <Heart className="h-8 w-8 text-accent" />
-                </div>
-                <CardTitle className="font-serif font-bold">Make Impact</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="text-center">
-                  Use your new skills to create solutions that matter to your community and beyond.
-                </CardDescription>
-              </CardContent>
-            </Card>
+            <HoverLiftCard className="border-border bg-card rounded-lg">
+              <Card className="h-full border-0 bg-transparent">
+                <CardHeader className="text-center">
+                  <div className="mx-auto mb-4 p-3 bg-accent/10 rounded-full w-fit">
+                    <Heart className="h-8 w-8 text-accent" />
+                  </div>
+                  <CardTitle className="font-serif font-bold">Make Impact</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <CardDescription className="text-center">
+                    Use your new skills to create solutions that matter to your community and beyond.
+                  </CardDescription>
+                </CardContent>
+              </Card>
+            </HoverLiftCard>
           </div>
         </div>
       </section>
@@ -296,10 +309,14 @@ Best regards`
       <section id="workshops" className="py-16 px-4 bg-card/30">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-12">
-            <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">Free Django Workshops</h2>
-            <p className="text-lg text-muted-foreground">
-              Join our upcoming workshops and start your coding journey today
-            </p>
+            <TextReveal>
+              <h2 className="font-serif font-black text-3xl md:text-4xl text-foreground mb-4">Free Django Workshops</h2>
+            </TextReveal>
+            <TextReveal delay={0.2}>
+              <p className="text-lg text-muted-foreground">
+                Join our upcoming workshops and start your coding journey today
+              </p>
+            </TextReveal>
           </div>
 
           {loading ? (
@@ -1084,6 +1101,17 @@ Best regards`
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Action Button */}
+      <FloatingButton 
+        className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white p-4 rounded-full shadow-2xl border-0"
+        onClick={() => window.location.href = '/workshops'}
+      >
+        <div className="flex items-center gap-2">
+          <Calendar className="h-6 w-6" />
+          <span className="font-semibold">Join Workshop</span>
+        </div>
+      </FloatingButton>
     </div>
   )
 }

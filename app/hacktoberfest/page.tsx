@@ -187,7 +187,7 @@ export default function HacktoberfestPage() {
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <MagneticButton className="bg-gradient-to-r from-[#FF6B35] to-[#D9376E] hover:from-[#FF8E3C] hover:to-[#FF6B35] text-white text-base px-6 py-2 rounded-lg shadow-md border-0 cursor-pointer font-semibold h-12 min-h-0 flex items-center">
-                <a href="https://hacktoberfest.com" target="_blank" rel="noopener noreferrer" className="flex items-center whitespace-nowrap">
+                <a href="https://events.mlh.io/events/13113-hactoberfest-2025-in-accra" target="_blank" rel="noopener noreferrer" className="flex items-center whitespace-nowrap">
                     <ExternalLink className="mr-2 h-5 w-5" />
                     Register for Hacktoberfest
                 </a>

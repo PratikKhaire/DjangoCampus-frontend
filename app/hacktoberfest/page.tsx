@@ -141,7 +141,7 @@ export default function HacktoberfestPage() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative py-20 px-4 overflow-hidden">
+      <section className="relative py-12 sm:py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-64 h-64 bg-[#FF6B35]/10 rounded-full blur-3xl"></div>
@@ -149,13 +149,13 @@ export default function HacktoberfestPage() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#D9376E]/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto text-center max-w-6xl">
+        <div className="relative z-10 container mx-auto text-center max-w-6xl px-4 sm:px-6">
           <TextReveal>
-            <div className="flex justify-center mb-8">
+            <div className="flex justify-center mb-12 md:mb-8">
               <img 
                 src="/HF-Stacked-Color-Light.png" 
                 alt="Hacktoberfest Logo" 
-                className="h-20 w-auto"
+                className="h-24 md:h-20 w-auto"
                 onError={(e) => {
                   // Fallback if logo doesn't exist yet
                   e.currentTarget.style.display = 'none'
@@ -165,14 +165,15 @@ export default function HacktoberfestPage() {
             </div>
           </TextReveal>
 
+          {/* Hide Hacktoberfest text on mobile, show on desktop */}
           <TextReveal delay={0.2}>
-            <h1 className="text-6xl md:text-8xl font-black mb-6 bg-gradient-to-r from-[#FF6B35] via-[#FF8E3C] to-[#D9376E] bg-clip-text text-transparent font-serif tracking-tight">
+            <h1 className="hidden md:block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-6 bg-gradient-to-r from-[#FF6B35] via-[#FF8E3C] to-[#D9376E] bg-clip-text text-transparent font-serif tracking-tight">
               Hacktoberfest
             </h1>
           </TextReveal>
 
           <TextReveal delay={0.4}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-[#FF8E3C]">
+            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-8 md:mb-8 text-[#FF8E3C]">
               Open Source. For Everyone.
             </h2>
           </TextReveal>
@@ -185,11 +186,11 @@ export default function HacktoberfestPage() {
           </TextReveal>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <MagneticButton className="bg-gradient-to-r from-[#FF6B35] to-[#D9376E] hover:from-[#FF8E3C] hover:to-[#FF6B35] text-white text-lg px-8 py-4 rounded-lg shadow-2xl border-0 cursor-pointer font-semibold">
-              <a href="https://hacktoberfest.com" target="_blank" rel="noopener noreferrer" className="flex items-center">
-                <ExternalLink className="mr-3 h-6 w-6" />
-                Register for Hacktoberfest
-              </a>
+            <MagneticButton className="bg-gradient-to-r from-[#FF6B35] to-[#D9376E] hover:from-[#FF8E3C] hover:to-[#FF6B35] text-white text-base px-6 py-2 rounded-lg shadow-md border-0 cursor-pointer font-semibold h-12 min-h-0 flex items-center">
+                <a href="https://hacktoberfest.com" target="_blank" rel="noopener noreferrer" className="flex items-center whitespace-nowrap">
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Register for Hacktoberfest
+                </a>
             </MagneticButton>
 
             <MagneticButton className="border-2 border-[#FF8E3C] text-[#FF8E3C] hover:bg-[#FF8E3C] hover:text-black text-lg px-8 py-4 rounded-lg bg-black/50 backdrop-blur-sm cursor-pointer font-semibold">
@@ -206,7 +207,7 @@ export default function HacktoberfestPage() {
       <section className="py-16 px-4 bg-[#161B22]">
         <div className="container mx-auto max-w-6xl">
           <TextReveal>
-            <h2 className="text-4xl md:text-5xl font-black text-center mb-12 text-[#FF8E3C] font-serif">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-center mb-12 text-[#FF8E3C] font-serif">
               What is Hacktoberfest?
             </h2>
           </TextReveal>
@@ -349,7 +350,7 @@ export default function HacktoberfestPage() {
       <section className="py-16 px-4">
         <div className="container mx-auto max-w-6xl">
           <TextReveal>
-            <h2 className="text-4xl md:text-5xl font-black text-center mb-4 text-[#FF8E3C] font-serif">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-center mb-4 text-[#FF8E3C] font-serif">
               Our Hacktoberfest Journey
             </h2>
           </TextReveal>

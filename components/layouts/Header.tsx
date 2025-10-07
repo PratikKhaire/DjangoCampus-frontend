@@ -29,6 +29,9 @@ export default function Header() {
           <a href="/workshops" className="text-foreground hover:text-primary transition-colors">
             Workshops
           </a>
+          <a href="/hacktoberfest" className="text-orange-500 hover:text-orange-600 transition-colors font-semibold">
+            Hacktoberfest
+          </a>
           <a href="/playground" className="text-foreground hover:text-primary transition-colors">
             Playground
           </a>
@@ -75,6 +78,13 @@ export default function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Workshops
+            </a>
+            <a 
+              href="/hacktoberfest" 
+              className="text-orange-500 hover:text-orange-600 transition-colors py-2 border-b border-border/50 font-semibold"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Hacktoberfest
             </a>
             <a 
               href="/playground" 

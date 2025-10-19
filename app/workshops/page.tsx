@@ -24,7 +24,6 @@ import Footer from "@/components/layouts/Footer"
 import { workshopService } from "@/services/workshopService"
 import { Workshop, Registration } from "@/types/api"
 
-
 export default function WorkshopsPage() {
   const [workshops, setWorkshops] = useState<Workshop[]>([])
   const [loading, setLoading] = useState(true)

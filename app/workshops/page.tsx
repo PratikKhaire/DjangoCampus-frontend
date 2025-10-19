@@ -419,18 +419,18 @@ export default function WorkshopsPage() {
               <div className="mx-auto p-3 bg-primary/10 rounded-full w-fit">
                 <Users className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="font-serif font-bold text-lg">Small Groups</h3>
+              <h3 className="font-serif font-bold text-lg">Open To All</h3>
               <p className="text-muted-foreground text-sm">
-                Maximum 30 participants per workshop for personalized attention and better learning.
+               Open to everyone to encourage shared learning and collaboration.
               </p>
             </div>
             <div className="space-y-3">
               <div className="mx-auto p-3 bg-secondary/10 rounded-full w-fit">
                 <Calendar className="h-8 w-8 text-secondary" />
               </div>
-              <h3 className="font-serif font-bold text-lg">2-Day Format</h3>
+              <h3 className="font-serif font-bold text-lg">Interactive Sessions</h3>
               <p className="text-muted-foreground text-sm">
-                Intensive weekend workshops with hands-on coding and project building.
+                Intensive workshops with hands-on coding and project building.
               </p>
             </div>
             <div className="space-y-3">
@@ -439,7 +439,7 @@ export default function WorkshopsPage() {
               </div>
               <h3 className="font-serif font-bold text-lg">Multiple Cities</h3>
               <p className="text-muted-foreground text-sm">
-                Workshops held across the globe to reach women in different regions.
+                Workshops held across the globe to reach every young person in different regions.
               </p>
             </div>
           </div>

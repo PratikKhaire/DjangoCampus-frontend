@@ -603,11 +603,65 @@ Best regards`
                 </DialogHeader>
                 
                 {subscriptionSuccess ? (
-                  <div className="py-6 flex flex-col items-center">
-                    <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
-                    <p className="text-center font-medium">
-                      Thank you for subscribing! We're excited to have you join our community.
-                    </p>
+                  <div className="relative py-8 flex flex-col items-center overflow-hidden">
+                    {/* Confetti Animation */}
+                    <div className="absolute inset-0 pointer-events-none">
+                      {/* Confetti pieces with staggered animations */}
+                      {[...Array(20)].map((_, i) => (
+                        <div
+                          key={i}
+                          className="absolute animate-confetti"
+                          style={{
+                            left: `${Math.random() * 100}%`,
+                            top: '-10px',
+                            animationDelay: `${Math.random() * 0.5}s`,
+                            animationDuration: `${2 + Math.random() * 2}s`,
+                          }}
+                        >
+                          <div
+                            className="w-2 h-2 rounded-full"
+                            style={{
+                              backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ec4899', '#8b5cf6'][i % 5],
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Animated Background Rings */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-32 h-32 rounded-full bg-green-500/10 animate-ping" />
+                      <div className="absolute w-24 h-24 rounded-full bg-green-500/20 animate-pulse" />
+                    </div>
+
+                    {/* Success Icon with Animation */}
+                    <div className="relative z-10 mb-6">
+                      <div className="relative">
+                        {/* Glow effect */}
+                        <div className="absolute inset-0 bg-green-500/30 rounded-full blur-xl animate-pulse" />
+                        {/* Icon */}
+                        <CheckCircle2 className="relative h-20 w-20 text-green-500 animate-scale-in" />
+                      </div>
+                    </div>
+
+                    {/* Success Message with Fade In */}
+                    <div className="relative z-10 text-center space-y-3 animate-fade-in-up px-4">
+                      <h3 className="text-2xl font-bold text-foreground">
+                        🎉 You're In!
+                      </h3>
+                      <p className="text-muted-foreground font-medium max-w-sm">
+                        Thank you for subscribing! We're excited to have you join our community.
+                      </p>
+                      <p className="text-sm text-muted-foreground/80">
+                        Check your inbox for a confirmation email 📧
+                      </p>
+                    </div>
+
+                    {/* Sparkle Elements */}
+                    <div className="absolute top-8 left-8 text-2xl animate-bounce">✨</div>
+                    <div className="absolute top-12 right-12 text-2xl animate-bounce" style={{ animationDelay: '0.2s' }}>🎊</div>
+                    <div className="absolute bottom-8 left-16 text-2xl animate-bounce" style={{ animationDelay: '0.4s' }}>⭐</div>
+                    <div className="absolute bottom-12 right-8 text-2xl animate-bounce" style={{ animationDelay: '0.6s' }}>🎉</div>
                   </div>
                 ) : (
                   <form onSubmit={handleNewsletterSubmit} className="space-y-4 py-4">

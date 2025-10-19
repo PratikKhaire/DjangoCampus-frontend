@@ -17,12 +17,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Calendar, MapPin, Users, Clock, ArrowLeft, CheckCircle, Mail } from "lucide-react"
+import { Calendar, MapPin, Users, Clock, ArrowLeft, CheckCircle, Mail, } from "lucide-react"
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { workshopService } from "@/services/workshopService"
 import { Workshop, Registration } from "@/types/api"
+
 
 export default function WorkshopsPage() {
   const [workshops, setWorkshops] = useState<Workshop[]>([])

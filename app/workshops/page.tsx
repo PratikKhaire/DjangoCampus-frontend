@@ -213,23 +213,26 @@ export default function WorkshopsPage() {
                       )}
                       
                       {/* Creative Date Badge with Sparkle */}
-                      {!workshop.is_ended && (
-                        <div className="absolute top-4 right-4 z-20 group/date">
-                          {/* Sparkle Effect */}
-                          <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                            <Sparkles className="h-4 w-4 text-yellow-400 animate-pulse" />
-                          </div>
-                          
-                          <div className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-xl shadow-2xl p-3 text-center min-w-[75px] transform group-hover/date:scale-110 transition-transform duration-300">
-                            <div className="text-3xl font-black leading-none">
-                              {new Date(workshop.workshop_date).getDate()}
+                      {!workshop.is_ended && (() => {
+                        const workshopDate = new Date(workshop.workshop_date);
+                        return (
+                          <div className="absolute top-4 right-4 z-20 group/date">
+                            {/* Sparkle Effect */}
+                            <div className="absolute -top-1 -right-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                              <Sparkles className="h-4 w-4 text-yellow-400 animate-pulse" />
                             </div>
-                            <div className="text-[10px] font-bold uppercase tracking-wider mt-1 opacity-90">
-                              {new Date(workshop.workshop_date).toLocaleDateString('en-US', { month: 'short' })}
+                            
+                            <div className="bg-gradient-to-br from-primary to-primary/80 text-white rounded-xl shadow-2xl p-3 text-center min-w-[75px] transform group-hover/date:scale-110 transition-transform duration-300">
+                              <div className="text-3xl font-black leading-none">
+                                {workshopDate.getDate()}
+                              </div>
+                              <div className="text-[10px] font-bold uppercase tracking-wider mt-1 opacity-90">
+                                {workshopDate.toLocaleDateString('en-US', { month: 'short' })}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        );
+                      })()}
 
                       {/* Status Badge Bottom Left */}
                       <div className="absolute bottom-4 left-4 z-20 flex gap-2">
@@ -250,15 +253,15 @@ export default function WorkshopsPage() {
                           <span className="font-black text-primary text-lg">
                             {getRegistrationsCount(workshop.registrations_count)}
                           </span>
-                          <span className="text-muted-foreground text-xs font-medium">joined</span>
+                          <span className="text-muted-foreground text-xs font-medium">registered</span>
                         </div>
                       </div>
                       
                       {/* Rating/Quality Indicator */}
                       {!workshop.is_ended && (
-                        <div className="flex items-center gap-0.5">
+                        <div className="flex items-center gap-0.5" role="img" aria-label="5 out of 5 rating">
                           {[1, 2, 3, 4, 5].map((star) => (
-                            <Star key={star} className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                            <Star key={star} className="h-3 w-3 fill-yellow-400 text-yellow-400" aria-hidden="true" />
                           ))}
                         </div>
                       )}
@@ -269,7 +272,7 @@ export default function WorkshopsPage() {
                       <span className={`${
                         workshop.is_ended 
                           ? 'text-muted-foreground' 
-                          : 'bg-gradient-to-r from-foreground to-foreground bg-clip-text group-hover:from-primary group-hover:to-secondary group-hover:text-transparent transition-all duration-500'
+                          : 'bg-gradient-to-r from-foreground to-foreground bg-clip-text group-hover/title:from-primary group-hover/title:to-secondary group-hover/title:text-transparent transition-all duration-500'
                       }`}>
                         {workshop.workshop_name}
                       </span>

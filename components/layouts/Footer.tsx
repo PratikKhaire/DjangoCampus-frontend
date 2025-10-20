@@ -1,4 +1,18 @@
+import { MapPin, Mail, PhoneCall, Twitter, Facebook, Instagram, Linkedin } from "lucide-react"
+import Link from "next/link"
+
+
 export default function Footer() {
+  const iconStyle = "p-2 bg-primary text-white rounded-md cursor-pointer transition-all duration-300 ease-in-out transform hover:scale-110 hover:text-limeTxt hover:bg-accent hover:shadow-[0_0_10px_rgba(0,255,150,0.7)]";
+  const contactIconStyle = "p-2 bg-primary text-white rounded-full cursor-pointer transition-all duration-300 ease-in-out hover:text-limeTxt hover:bg-accent hover:scale-110 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2";
+  
+  const navLinks = [
+    { label: "About Us", href: "/#about" },
+    { label: "Workshops", href: "/workshops" },
+    { label: "Community", href: "/#community" },
+    { label: "Resources", href: "#" },
+  ]
+
   return (
     <footer className="py-12 px-4 bg-card border-t border-border">
       <div className="container mx-auto max-w-6xl">
@@ -11,57 +25,74 @@ export default function Footer() {
                 <p className="text-sm text-muted-foreground">Powered by Django</p>
               </div>
             </div>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 w-full md:max-w-[75%]">
               Empowering youth to learn programming through free Django workshops across the world.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Twitter
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Facebook
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                Instagram
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                LinkedIn
-              </a>
+                <Link 
+                  href="#" 
+                  className="text-muted-foreground hover:text-primary transition-colors"
+                  aria-label="Visit our Twitter profile"
+                >
+                  <Twitter size={35} className={iconStyle} />
+                </Link>
+              
+              <Link 
+                href="#" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Visit our Facebook page"
+              >
+                <Facebook size={35} className={iconStyle}/>
+              </Link>
+              <Link 
+                href="#" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Visit our Instagram profile"
+              >
+                <Instagram size={35} className={iconStyle} />
+              </Link>
+              <Link 
+                href="https://www.linkedin.com/company/djangocampus/" 
+                className="text-muted-foreground hover:text-primary transition-colors"
+                aria-label="Visit our LinkedIn"
+              >
+                <Linkedin size={35} className={iconStyle}/>
+              </Link>
             </div>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li>
-                <a href="/#about" className="hover:text-primary transition-colors">
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/workshops" className="hover:text-primary transition-colors">
-                  Workshops
-                </a>
-              </li>
-              <li>
-                <a href="/#community" className="hover:text-primary transition-colors">
-                  Community
-                </a>
-              </li>
-              <li>
-                <a href="#" className="hover:text-primary transition-colors">
-                  Resources
-                </a>
-              </li>
+                {
+                  navLinks.map((item) => (
+                <li key={item.label}>
+                  <Link
+                    href={item.href}
+                    className="hover:text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li>campus.django@gmail.com</li>
-              <li>Accra, Ghana</li>
-              <li>+233 50 015 9892</li>
+              <div className="flex gap-3 items-center">
+                <Mail size={35} className={contactIconStyle} aria-hidden="true"/>
+                <li>campus.django@gmail.com</li>
+              </div>
+              <div className="flex gap-3 items-center">
+                <MapPin size={35} className={contactIconStyle} aria-hidden="true"/>
+                <li>Accra, Ghana</li>
+              </div>
+              <div className="flex gap-3 items-center">
+                  <PhoneCall size={35} className={contactIconStyle} aria-hidden="true"/>
+                <li>+233 50 015 9892</li>
+              </div>
             </ul>
           </div>
         </div>

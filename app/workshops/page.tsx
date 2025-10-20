@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Calendar, MapPin, Users, Clock, ArrowLeft, CheckCircle, Mail, Sparkles, TrendingUp, Award, Star } from "lucide-react"
+import { Calendar, MapPin, Users, Clock, ArrowLeft, CheckCircle, Mail, Sparkles, TrendingUp, Award, Star, Search, X } from "lucide-react"
 import Link from "next/link"
 import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
@@ -33,6 +33,7 @@ export default function WorkshopsPage() {
   const [registeredWorkshopName, setRegisteredWorkshopName] = useState("")
   const [registeredWorkshopDate, setRegisteredWorkshopDate] = useState("")
   const [registeredWorkshopTime, setRegisteredWorkshopTime] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -126,6 +127,24 @@ export default function WorkshopsPage() {
     return parseInt(registrationsCount) || 0
   }
 
+  //Filter workshop based on search (must be before conditional returns)
+  const filteredWorkshops = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return workshops
+    }
+
+    const query = searchQuery.toLowerCase()
+    return workshops.filter((workshop) => {
+      const nameMatch = workshop.workshop_name?.toLowerCase().includes(query)
+      const locationMatch = workshop.workshop_location?.toLowerCase().includes(query)
+      return nameMatch || locationMatch
+    })
+  }, [workshops, searchQuery])
+
+  const handleClearSearch = () => {
+    setSearchQuery("")
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -159,6 +178,34 @@ export default function WorkshopsPage() {
               Join our hands-on Django workshops designed for women of all skill levels. Learn, build, and connect with
               the global tech community.
             </p>
+
+          {/* Search Input */}
+          <div className="max-w-xl mx-auto">
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search by workshop name or location..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-12 pr-12 py-4 rounded-lg border border-border bg-card text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={handleClearSearch}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-full transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="h-5 w-5 text-muted-foreground" />
+                </button>
+              )}
+            </div>
+            {searchQuery && (
+              <p className="mt-3 text-sm text-muted-foreground">
+                Found {filteredWorkshops.length} workshop{filteredWorkshops.length !== 1 ? 's' : ''}
+              </p>
+            )}
+          </div>
         </div>
       </section>
 
@@ -170,9 +217,24 @@ export default function WorkshopsPage() {
               <h3 className="text-2xl font-semibold text-muted-foreground mb-4">No workshops available</h3>
               <p className="text-muted-foreground">Check back soon for upcoming workshops!</p>
             </div>
+          ) : filteredWorkshops.length === 0 ? (
+            <div className="text-center py-20">
+              <Search className="h-16 w-16 text-muted-foreground mx-auto mb-4 opacity-50" />
+              <h3 className="text-2xl font-semibold text-muted-foreground mb-4">No workshops found</h3>
+              <p className="text-muted-foreground mb-6">
+                No workshops match your search "{searchQuery}"
+              </p>
+              <button
+                onClick={handleClearSearch}
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+              >
+                <X className="h-4 w-4" />
+                Clear search
+              </button>
+            </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
-              {workshops.map((workshop: Workshop, index: number) => (
+              {filteredWorkshops.map((workshop: Workshop, index: number) => (
                 <Card
                   key={workshop.id}
                   className={`group relative border-0 bg-gradient-to-br from-card via-card to-card/50 hover:shadow-2xl hover:shadow-primary/20 transition-all duration-700 hover:-translate-y-3 overflow-hidden backdrop-blur-sm ${
@@ -470,18 +532,18 @@ export default function WorkshopsPage() {
               <div className="mx-auto p-3 bg-primary/10 rounded-full w-fit">
                 <Users className="h-8 w-8 text-primary" />
               </div>
-              <h3 className="font-serif font-bold text-lg">Small Groups</h3>
+              <h3 className="font-serif font-bold text-lg">Open To All</h3>
               <p className="text-muted-foreground text-sm">
-                Maximum 30 participants per workshop for personalized attention and better learning.
+               Open to everyone to encourage shared learning and collaboration.
               </p>
             </div>
             <div className="space-y-3">
               <div className="mx-auto p-3 bg-secondary/10 rounded-full w-fit">
                 <Calendar className="h-8 w-8 text-secondary" />
               </div>
-              <h3 className="font-serif font-bold text-lg">2-Day Format</h3>
+              <h3 className="font-serif font-bold text-lg">Interactive Sessions</h3>
               <p className="text-muted-foreground text-sm">
-                Intensive weekend workshops with hands-on coding and project building.
+                Intensive workshops with hands-on coding and project building.
               </p>
             </div>
             <div className="space-y-3">
@@ -490,7 +552,7 @@ export default function WorkshopsPage() {
               </div>
               <h3 className="font-serif font-bold text-lg">Multiple Cities</h3>
               <p className="text-muted-foreground text-sm">
-                Workshops held across the globe to reach women in different regions.
+                Workshops held across the globe to reach every young person in different regions.
               </p>
             </div>
           </div>

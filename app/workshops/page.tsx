@@ -35,6 +35,7 @@ export default function WorkshopsPage() {
   const [registeredWorkshopDate, setRegisteredWorkshopDate] = useState("")
   const [registeredWorkshopTime, setRegisteredWorkshopTime] = useState("")
   const [searchQuery, setSearchQuery] = useState("")
+  const [countrySearch, setCountrySearch] = useState("")
   const [formData, setFormData] = useState({
     full_name: "",
     email: "",
@@ -44,6 +45,95 @@ export default function WorkshopsPage() {
     will_attend_physical: true,
     django_experience: "Beginner",
   })
+
+  // Countries list for dropdown
+  const countries = [
+    { value: "Ghana", label: "🇬🇭 Ghana" },
+    { value: "Nigeria", label: "🇳🇬 Nigeria" },
+    { value: "Kenya", label: "🇰🇪 Kenya" },
+    { value: "South Africa", label: "🇿🇦 South Africa" },
+    { value: "Egypt", label: "🇪🇬 Egypt" },
+    { value: "Tanzania", label: "🇹🇿 Tanzania" },
+    { value: "Uganda", label: "🇺🇬 Uganda" },
+    { value: "Ethiopia", label: "🇪🇹 Ethiopia" },
+    { value: "Morocco", label: "🇲🇦 Morocco" },
+    { value: "Algeria", label: "🇩🇿 Algeria" },
+    { value: "Tunisia", label: "🇹🇳 Tunisia" },
+    { value: "Senegal", label: "🇸🇳 Senegal" },
+    { value: "Ivory Coast", label: "🇨🇮 Ivory Coast" },
+    { value: "Cameroon", label: "🇨🇲 Cameroon" },
+    { value: "Rwanda", label: "🇷🇼 Rwanda" },
+    { value: "Zambia", label: "🇿🇲 Zambia" },
+    { value: "Zimbabwe", label: "🇿🇼 Zimbabwe" },
+    { value: "Botswana", label: "🇧🇼 Botswana" },
+    { value: "India", label: "🇮🇳 India" },
+    { value: "China", label: "🇨🇳 China" },
+    { value: "Japan", label: "🇯🇵 Japan" },
+    { value: "South Korea", label: "🇰🇷 South Korea" },
+    { value: "Philippines", label: "🇵🇭 Philippines" },
+    { value: "Indonesia", label: "🇮🇩 Indonesia" },
+    { value: "Pakistan", label: "🇵🇰 Pakistan" },
+    { value: "Bangladesh", label: "🇧🇩 Bangladesh" },
+    { value: "Vietnam", label: "🇻🇳 Vietnam" },
+    { value: "Thailand", label: "🇹🇭 Thailand" },
+    { value: "Malaysia", label: "🇲🇾 Malaysia" },
+    { value: "Singapore", label: "🇸🇬 Singapore" },
+    { value: "Sri Lanka", label: "🇱🇰 Sri Lanka" },
+    { value: "Nepal", label: "🇳🇵 Nepal" },
+    { value: "Myanmar", label: "🇲🇲 Myanmar" },
+    { value: "United Kingdom", label: "🇬🇧 United Kingdom" },
+    { value: "Germany", label: "🇩🇪 Germany" },
+    { value: "France", label: "🇫🇷 France" },
+    { value: "Spain", label: "🇪🇸 Spain" },
+    { value: "Italy", label: "🇮🇹 Italy" },
+    { value: "Poland", label: "🇵🇱 Poland" },
+    { value: "Netherlands", label: "🇳🇱 Netherlands" },
+    { value: "Belgium", label: "🇧🇪 Belgium" },
+    { value: "Sweden", label: "🇸🇪 Sweden" },
+    { value: "Norway", label: "🇳🇴 Norway" },
+    { value: "Denmark", label: "🇩🇰 Denmark" },
+    { value: "Finland", label: "🇫🇮 Finland" },
+    { value: "Switzerland", label: "🇨🇭 Switzerland" },
+    { value: "Austria", label: "🇦🇹 Austria" },
+    { value: "Portugal", label: "🇵🇹 Portugal" },
+    { value: "Greece", label: "🇬🇷 Greece" },
+    { value: "Czech Republic", label: "🇨🇿 Czech Republic" },
+    { value: "Romania", label: "🇷🇴 Romania" },
+    { value: "Ireland", label: "🇮🇪 Ireland" },
+    { value: "United States", label: "🇺🇸 United States" },
+    { value: "Canada", label: "🇨🇦 Canada" },
+    { value: "Brazil", label: "🇧🇷 Brazil" },
+    { value: "Mexico", label: "🇲🇽 Mexico" },
+    { value: "Argentina", label: "🇦🇷 Argentina" },
+    { value: "Colombia", label: "🇨🇴 Colombia" },
+    { value: "Chile", label: "🇨🇱 Chile" },
+    { value: "Peru", label: "🇵🇪 Peru" },
+    { value: "Venezuela", label: "🇻🇪 Venezuela" },
+    { value: "Ecuador", label: "🇪🇨 Ecuador" },
+    { value: "Jamaica", label: "🇯🇲 Jamaica" },
+    { value: "Trinidad and Tobago", label: "🇹🇹 Trinidad and Tobago" },
+    { value: "Australia", label: "🇦🇺 Australia" },
+    { value: "New Zealand", label: "🇳🇿 New Zealand" },
+    { value: "United Arab Emirates", label: "🇦🇪 United Arab Emirates" },
+    { value: "Saudi Arabia", label: "🇸🇦 Saudi Arabia" },
+    { value: "Israel", label: "🇮🇱 Israel" },
+    { value: "Turkey", label: "🇹🇷 Turkey" },
+    { value: "Iran", label: "🇮🇷 Iran" },
+    { value: "Iraq", label: "🇮🇶 Iraq" },
+    { value: "Jordan", label: "🇯🇴 Jordan" },
+    { value: "Lebanon", label: "🇱🇧 Lebanon" },
+    { value: "Other", label: "🌍 Other" },
+  ]
+
+  // Filter countries based on search
+  const filteredCountries = useMemo(() => {
+    if (!countrySearch.trim()) return countries
+    const query = countrySearch.toLowerCase()
+    return countries.filter(country => 
+      country.label.toLowerCase().includes(query) ||
+      country.value.toLowerCase().includes(query)
+    )
+  }, [countrySearch])
 
   // Fetch workshops on component mount
   useEffect(() => {
@@ -371,110 +461,77 @@ export default function WorkshopsPage() {
                               required
                             />
                           </div>
-                          {/* Country Field */}
+                          {/* Country Field - Enhanced Searchable */}
                           <div className="space-y-2">
-                            <Label htmlFor="country">
+                            <Label htmlFor="country" className="text-sm font-medium">
                               Country <span className="text-destructive">*</span>
                             </Label>
                             <Select
                               value={formData.country}
-                              onValueChange={(value) => 
+                              onValueChange={(value) => {
                                 setFormData((prev) => ({ ...prev, country: value }))
-                              }
+                                setCountrySearch("")
+                              }}
+                              onOpenChange={(open) => {
+                                if (!open) setCountrySearch("")
+                              }}
                             >
-                              <SelectTrigger id="country">
-                                <SelectValue placeholder="Select your country" />
+                              <SelectTrigger 
+                                id="country" 
+                                className="w-full h-11 bg-background border-input hover:border-ring transition-colors"
+                              >
+                                <SelectValue placeholder="🌍 Select your country" />
                               </SelectTrigger>
-                              <SelectContent className="max-h-60">
-                                {/* Africa */}
-                                <SelectItem value="Ghana">🇬🇭 Ghana</SelectItem>
-                                <SelectItem value="Nigeria">🇳🇬 Nigeria</SelectItem>
-                                <SelectItem value="Kenya">🇰🇪 Kenya</SelectItem>
-                                <SelectItem value="South Africa">🇿🇦 South Africa</SelectItem>
-                                <SelectItem value="Egypt">🇪🇬 Egypt</SelectItem>
-                                <SelectItem value="Tanzania">🇹🇿 Tanzania</SelectItem>
-                                <SelectItem value="Uganda">🇺🇬 Uganda</SelectItem>
-                                <SelectItem value="Ethiopia">🇪🇹 Ethiopia</SelectItem>
-                                <SelectItem value="Morocco">🇲🇦 Morocco</SelectItem>
-                                <SelectItem value="Algeria">🇩🇿 Algeria</SelectItem>
-                                <SelectItem value="Tunisia">🇹🇳 Tunisia</SelectItem>
-                                <SelectItem value="Senegal">🇸🇳 Senegal</SelectItem>
-                                <SelectItem value="Ivory Coast">🇨🇮 Ivory Coast</SelectItem>
-                                <SelectItem value="Cameroon">🇨🇲 Cameroon</SelectItem>
-                                <SelectItem value="Rwanda">🇷🇼 Rwanda</SelectItem>
-                                <SelectItem value="Zambia">🇿🇲 Zambia</SelectItem>
-                                <SelectItem value="Zimbabwe">🇿🇼 Zimbabwe</SelectItem>
-                                <SelectItem value="Botswana">🇧🇼 Botswana</SelectItem>
+                              <SelectContent className="max-h-[280px] w-full">
+                                {/* Search Input */}
+                                <div className="sticky top-0 z-10 bg-popover border-b px-2 py-2">
+                                  <div className="relative">
+                                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                                    <Input
+                                      placeholder="Type to search countries..."
+                                      value={countrySearch}
+                                      onChange={(e) => setCountrySearch(e.target.value)}
+                                      className="pl-9 h-9 bg-background"
+                                      onClick={(e) => e.stopPropagation()}
+                                      onKeyDown={(e) => e.stopPropagation()}
+                                      autoFocus
+                                    />
+                                  </div>
+                                </div>
                                 
-                                {/* Asia */}
-                                <SelectItem value="India">🇮🇳 India</SelectItem>
-                                <SelectItem value="China">🇨🇳 China</SelectItem>
-                                <SelectItem value="Japan">🇯🇵 Japan</SelectItem>
-                                <SelectItem value="South Korea">🇰🇷 South Korea</SelectItem>
-                                <SelectItem value="Philippines">🇵🇭 Philippines</SelectItem>
-                                <SelectItem value="Indonesia">🇮🇩 Indonesia</SelectItem>
-                                <SelectItem value="Pakistan">🇵🇰 Pakistan</SelectItem>
-                                <SelectItem value="Bangladesh">🇧🇩 Bangladesh</SelectItem>
-                                <SelectItem value="Vietnam">🇻🇳 Vietnam</SelectItem>
-                                <SelectItem value="Thailand">🇹🇭 Thailand</SelectItem>
-                                <SelectItem value="Malaysia">🇲🇾 Malaysia</SelectItem>
-                                <SelectItem value="Singapore">🇸🇬 Singapore</SelectItem>
-                                <SelectItem value="Sri Lanka">🇱🇰 Sri Lanka</SelectItem>
-                                <SelectItem value="Nepal">🇳🇵 Nepal</SelectItem>
-                                <SelectItem value="Myanmar">🇲🇲 Myanmar</SelectItem>
-                                
-                                {/* Europe */}
-                                <SelectItem value="United Kingdom">🇬🇧 United Kingdom</SelectItem>
-                                <SelectItem value="Germany">🇩🇪 Germany</SelectItem>
-                                <SelectItem value="France">🇫🇷 France</SelectItem>
-                                <SelectItem value="Spain">🇪🇸 Spain</SelectItem>
-                                <SelectItem value="Italy">🇮🇹 Italy</SelectItem>
-                                <SelectItem value="Poland">🇵🇱 Poland</SelectItem>
-                                <SelectItem value="Netherlands">🇳🇱 Netherlands</SelectItem>
-                                <SelectItem value="Belgium">🇧🇪 Belgium</SelectItem>
-                                <SelectItem value="Sweden">🇸🇪 Sweden</SelectItem>
-                                <SelectItem value="Norway">🇳🇴 Norway</SelectItem>
-                                <SelectItem value="Denmark">🇩🇰 Denmark</SelectItem>
-                                <SelectItem value="Finland">🇫🇮 Finland</SelectItem>
-                                <SelectItem value="Switzerland">🇨🇭 Switzerland</SelectItem>
-                                <SelectItem value="Austria">🇦🇹 Austria</SelectItem>
-                                <SelectItem value="Portugal">🇵🇹 Portugal</SelectItem>
-                                <SelectItem value="Greece">🇬🇷 Greece</SelectItem>
-                                <SelectItem value="Czech Republic">🇨🇿 Czech Republic</SelectItem>
-                                <SelectItem value="Romania">🇷🇴 Romania</SelectItem>
-                                <SelectItem value="Ireland">🇮🇪 Ireland</SelectItem>
-                                
-                                {/* Americas */}
-                                <SelectItem value="United States">🇺🇸 United States</SelectItem>
-                                <SelectItem value="Canada">🇨🇦 Canada</SelectItem>
-                                <SelectItem value="Brazil">🇧🇷 Brazil</SelectItem>
-                                <SelectItem value="Mexico">🇲🇽 Mexico</SelectItem>
-                                <SelectItem value="Argentina">🇦🇷 Argentina</SelectItem>
-                                <SelectItem value="Colombia">🇨🇴 Colombia</SelectItem>
-                                <SelectItem value="Chile">🇨🇱 Chile</SelectItem>
-                                <SelectItem value="Peru">🇵🇪 Peru</SelectItem>
-                                <SelectItem value="Venezuela">🇻🇪 Venezuela</SelectItem>
-                                <SelectItem value="Ecuador">🇪🇨 Ecuador</SelectItem>
-                                <SelectItem value="Jamaica">🇯🇲 Jamaica</SelectItem>
-                                <SelectItem value="Trinidad and Tobago">🇹🇹 Trinidad and Tobago</SelectItem>
-                                
-                                {/* Oceania */}
-                                <SelectItem value="Australia">🇦🇺 Australia</SelectItem>
-                                <SelectItem value="New Zealand">🇳🇿 New Zealand</SelectItem>
-                                
-                                {/* Middle East */}
-                                <SelectItem value="United Arab Emirates">🇦🇪 United Arab Emirates</SelectItem>
-                                <SelectItem value="Saudi Arabia">🇸🇦 Saudi Arabia</SelectItem>
-                                <SelectItem value="Israel">🇮🇱 Israel</SelectItem>
-                                <SelectItem value="Turkey">🇹🇷 Turkey</SelectItem>
-                                <SelectItem value="Iran">🇮🇷 Iran</SelectItem>
-                                <SelectItem value="Iraq">🇮🇶 Iraq</SelectItem>
-                                <SelectItem value="Jordan">🇯🇴 Jordan</SelectItem>
-                                <SelectItem value="Lebanon">🇱🇧 Lebanon</SelectItem>
-                                
-                                <SelectItem value="Other">🌍 Other</SelectItem>
+                                {/* Countries List */}
+                                <div className="py-1">
+                                  {filteredCountries.length > 0 ? (
+                                    filteredCountries.map((country) => (
+                                      <SelectItem 
+                                        key={country.value} 
+                                        value={country.value}
+                                        className="cursor-pointer hover:bg-accent"
+                                      >
+                                        {country.label}
+                                      </SelectItem>
+                                    ))
+                                  ) : (
+                                    <div className="py-8 text-center">
+                                      <p className="text-sm text-muted-foreground mb-1">No countries found</p>
+                                      <p className="text-xs text-muted-foreground">Try a different search term</p>
+                                    </div>
+                                  )}
+                                </div>
                               </SelectContent>
                             </Select>
+                            {!formData.country && (
+                              <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                                <span className="inline-block w-1 h-1 rounded-full bg-primary animate-pulse" />
+                                Type to search or scroll through the list
+                              </p>
+                            )}
+                            {formData.country && (
+                              <p className="text-xs text-green-600 dark:text-green-500 flex items-center gap-1">
+                                <CheckCircle className="h-3 w-3" />
+                                {formData.country} selected
+                              </p>
+                            )}
                           </div>
 
                           <div className="space-y-2">

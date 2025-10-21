@@ -23,6 +23,7 @@ import Header from "@/components/layouts/Header"
 import Footer from "@/components/layouts/Footer"
 import { workshopService } from "@/services/workshopService"
 import { Workshop, Registration } from "@/types/api"
+import { Value } from "@radix-ui/react-select"
 
 export default function WorkshopsPage() {
   const [workshops, setWorkshops] = useState<Workshop[]>([])
@@ -38,6 +39,7 @@ export default function WorkshopsPage() {
     full_name: "",
     email: "",
     phone_number: "",
+    country:"",
     experience_level: "Beginner",
     will_attend_physical: true,
     django_experience: "Beginner",
@@ -69,6 +71,12 @@ export default function WorkshopsPage() {
     
     if (!selectedWorkshop) return
 
+    // Validate country selection
+    if (!formData.country) {
+      alert('Please select your country')
+      return
+    }
+
     try {
       setSubmitting(true)
       
@@ -77,6 +85,7 @@ export default function WorkshopsPage() {
         user_name: formData.full_name,
         user_email: formData.email,
         phone_number: formData.phone_number,
+        country: formData.country,
         will_attend_physical: formData.will_attend_physical,
         django_experience: formData.django_experience as 'Beginner' | 'Intermediate' | 'Advanced',
       }
@@ -98,6 +107,7 @@ export default function WorkshopsPage() {
         full_name: "",
         email: "",
         phone_number: "",
+        country: "",
         experience_level: "Beginner",
         will_attend_physical: true,
         django_experience: "Beginner",
@@ -360,6 +370,111 @@ export default function WorkshopsPage() {
                               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, email: e.target.value })}
                               required
                             />
+                          </div>
+                          {/* Country Field */}
+                          <div className="space-y-2">
+                            <Label htmlFor="country">
+                              Country <span className="text-destructive">*</span>
+                            </Label>
+                            <Select
+                              value={formData.country}
+                              onValueChange={(value) => 
+                                setFormData((prev) => ({ ...prev, country: value }))
+                              }
+                            >
+                              <SelectTrigger id="country">
+                                <SelectValue placeholder="Select your country" />
+                              </SelectTrigger>
+                              <SelectContent className="max-h-60">
+                                {/* Africa */}
+                                <SelectItem value="Ghana">🇬🇭 Ghana</SelectItem>
+                                <SelectItem value="Nigeria">🇳🇬 Nigeria</SelectItem>
+                                <SelectItem value="Kenya">🇰🇪 Kenya</SelectItem>
+                                <SelectItem value="South Africa">🇿🇦 South Africa</SelectItem>
+                                <SelectItem value="Egypt">🇪🇬 Egypt</SelectItem>
+                                <SelectItem value="Tanzania">🇹🇿 Tanzania</SelectItem>
+                                <SelectItem value="Uganda">🇺🇬 Uganda</SelectItem>
+                                <SelectItem value="Ethiopia">🇪🇹 Ethiopia</SelectItem>
+                                <SelectItem value="Morocco">🇲🇦 Morocco</SelectItem>
+                                <SelectItem value="Algeria">🇩🇿 Algeria</SelectItem>
+                                <SelectItem value="Tunisia">🇹🇳 Tunisia</SelectItem>
+                                <SelectItem value="Senegal">🇸🇳 Senegal</SelectItem>
+                                <SelectItem value="Ivory Coast">🇨🇮 Ivory Coast</SelectItem>
+                                <SelectItem value="Cameroon">🇨🇲 Cameroon</SelectItem>
+                                <SelectItem value="Rwanda">🇷🇼 Rwanda</SelectItem>
+                                <SelectItem value="Zambia">🇿🇲 Zambia</SelectItem>
+                                <SelectItem value="Zimbabwe">🇿🇼 Zimbabwe</SelectItem>
+                                <SelectItem value="Botswana">🇧🇼 Botswana</SelectItem>
+                                
+                                {/* Asia */}
+                                <SelectItem value="India">🇮🇳 India</SelectItem>
+                                <SelectItem value="China">🇨🇳 China</SelectItem>
+                                <SelectItem value="Japan">🇯🇵 Japan</SelectItem>
+                                <SelectItem value="South Korea">🇰🇷 South Korea</SelectItem>
+                                <SelectItem value="Philippines">🇵🇭 Philippines</SelectItem>
+                                <SelectItem value="Indonesia">🇮🇩 Indonesia</SelectItem>
+                                <SelectItem value="Pakistan">🇵🇰 Pakistan</SelectItem>
+                                <SelectItem value="Bangladesh">🇧🇩 Bangladesh</SelectItem>
+                                <SelectItem value="Vietnam">🇻🇳 Vietnam</SelectItem>
+                                <SelectItem value="Thailand">🇹🇭 Thailand</SelectItem>
+                                <SelectItem value="Malaysia">🇲🇾 Malaysia</SelectItem>
+                                <SelectItem value="Singapore">🇸🇬 Singapore</SelectItem>
+                                <SelectItem value="Sri Lanka">🇱🇰 Sri Lanka</SelectItem>
+                                <SelectItem value="Nepal">🇳🇵 Nepal</SelectItem>
+                                <SelectItem value="Myanmar">🇲🇲 Myanmar</SelectItem>
+                                
+                                {/* Europe */}
+                                <SelectItem value="United Kingdom">🇬🇧 United Kingdom</SelectItem>
+                                <SelectItem value="Germany">🇩🇪 Germany</SelectItem>
+                                <SelectItem value="France">🇫🇷 France</SelectItem>
+                                <SelectItem value="Spain">🇪🇸 Spain</SelectItem>
+                                <SelectItem value="Italy">🇮🇹 Italy</SelectItem>
+                                <SelectItem value="Poland">🇵🇱 Poland</SelectItem>
+                                <SelectItem value="Netherlands">🇳🇱 Netherlands</SelectItem>
+                                <SelectItem value="Belgium">🇧🇪 Belgium</SelectItem>
+                                <SelectItem value="Sweden">🇸🇪 Sweden</SelectItem>
+                                <SelectItem value="Norway">🇳🇴 Norway</SelectItem>
+                                <SelectItem value="Denmark">🇩🇰 Denmark</SelectItem>
+                                <SelectItem value="Finland">🇫🇮 Finland</SelectItem>
+                                <SelectItem value="Switzerland">🇨🇭 Switzerland</SelectItem>
+                                <SelectItem value="Austria">🇦🇹 Austria</SelectItem>
+                                <SelectItem value="Portugal">🇵🇹 Portugal</SelectItem>
+                                <SelectItem value="Greece">🇬🇷 Greece</SelectItem>
+                                <SelectItem value="Czech Republic">🇨🇿 Czech Republic</SelectItem>
+                                <SelectItem value="Romania">🇷🇴 Romania</SelectItem>
+                                <SelectItem value="Ireland">🇮🇪 Ireland</SelectItem>
+                                
+                                {/* Americas */}
+                                <SelectItem value="United States">🇺🇸 United States</SelectItem>
+                                <SelectItem value="Canada">🇨🇦 Canada</SelectItem>
+                                <SelectItem value="Brazil">🇧🇷 Brazil</SelectItem>
+                                <SelectItem value="Mexico">🇲🇽 Mexico</SelectItem>
+                                <SelectItem value="Argentina">🇦🇷 Argentina</SelectItem>
+                                <SelectItem value="Colombia">🇨🇴 Colombia</SelectItem>
+                                <SelectItem value="Chile">🇨🇱 Chile</SelectItem>
+                                <SelectItem value="Peru">🇵🇪 Peru</SelectItem>
+                                <SelectItem value="Venezuela">🇻🇪 Venezuela</SelectItem>
+                                <SelectItem value="Ecuador">🇪🇨 Ecuador</SelectItem>
+                                <SelectItem value="Jamaica">🇯🇲 Jamaica</SelectItem>
+                                <SelectItem value="Trinidad and Tobago">🇹🇹 Trinidad and Tobago</SelectItem>
+                                
+                                {/* Oceania */}
+                                <SelectItem value="Australia">🇦🇺 Australia</SelectItem>
+                                <SelectItem value="New Zealand">🇳🇿 New Zealand</SelectItem>
+                                
+                                {/* Middle East */}
+                                <SelectItem value="United Arab Emirates">🇦🇪 United Arab Emirates</SelectItem>
+                                <SelectItem value="Saudi Arabia">🇸🇦 Saudi Arabia</SelectItem>
+                                <SelectItem value="Israel">🇮🇱 Israel</SelectItem>
+                                <SelectItem value="Turkey">🇹🇷 Turkey</SelectItem>
+                                <SelectItem value="Iran">🇮🇷 Iran</SelectItem>
+                                <SelectItem value="Iraq">🇮🇶 Iraq</SelectItem>
+                                <SelectItem value="Jordan">🇯🇴 Jordan</SelectItem>
+                                <SelectItem value="Lebanon">🇱🇧 Lebanon</SelectItem>
+                                
+                                <SelectItem value="Other">🌍 Other</SelectItem>
+                              </SelectContent>
+                            </Select>
                           </div>
 
                           <div className="space-y-2">
